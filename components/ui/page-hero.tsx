@@ -1,0 +1,86 @@
+import React from 'react';
+
+type PageHeroProps = {
+    overline: string;
+    title: string;
+    description: string;
+    backgroundImage?: string;
+    align?: 'left' | 'center';
+};
+
+export default function PageHero({ 
+    overline, 
+    title, 
+    description, 
+    backgroundImage = 'url("/assets/Background-20260709T183540Z-2-001/Background/Lotus/Lotus.webp")',
+    align = 'left' 
+}: PageHeroProps) {
+    return (
+        <section className="page-hero" style={{
+            paddingTop: '180px', 
+            paddingBottom: '100px', 
+            position: 'relative', 
+            overflow: 'hidden',
+            backgroundImage: backgroundImage, 
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundColor: 'var(--color-surface-base)'
+        }}>
+            <div className="hero-overlay" style={{
+                position: 'absolute', 
+                top: 0, 
+                left: 0, 
+                width: '100%', 
+                height: '100%', 
+                backgroundColor: 'rgba(7, 9, 17, 0.6)', 
+                zIndex: 0
+            }}></div>
+            <div style={{
+                position: 'absolute', 
+                top: '50%', 
+                left: '50%', 
+                transform: 'translate(-50%, -50%)', 
+                width: '80%', 
+                height: '80%', 
+                background: 'radial-gradient(circle, rgba(240, 139, 67, 0.04) 0%, transparent 60%)', 
+                zIndex: 1, 
+                pointerEvents: 'none'
+            }}></div>
+            
+            <div className="container" style={{
+                position: 'relative', 
+                zIndex: 2, 
+                maxWidth: '900px',
+                textAlign: align === 'center' ? 'center' : 'left',
+                margin: align === 'center' ? '0 auto' : '0'
+            }}>
+                <span className="overline" style={{
+                    color: 'var(--color-primary)', 
+                    letterSpacing: '4px', 
+                    display: 'block', 
+                    marginBottom: '16px'
+                }}>
+                    {overline}
+                </span>
+                <h1 className="display-1" style={{
+                    marginBottom: '24px', 
+                    color: 'var(--color-text-primary)', 
+                    fontFamily: 'var(--font-display)', 
+                    fontWeight: 700,
+                    maxWidth: align === 'left' ? '18ch' : 'none'
+                }}>
+                    {title}
+                </h1>
+                <p className="body-large" style={{
+                    color: 'var(--color-text-secondary)', 
+                    maxWidth: align === 'center' ? '600px' : '600px',
+                    margin: align === 'center' ? '0 auto' : '0',
+                    fontSize: '1.2rem', 
+                    lineHeight: 1.6
+                }}>
+                    {description}
+                </p>
+            </div>
+        </section>
+    );
+}
