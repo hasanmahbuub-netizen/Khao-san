@@ -1,29 +1,104 @@
 import React from 'react';
 import Image from 'next/image';
 
+export type MenuBadge = 'spicy' | 'special' | 'featured' | 'new';
+
 export interface MenuCardProps {
+    number?: number;
     title: string;
     imageSrc: string;
-    badge?: 'special' | 'spicy' | null;
+    price: string;
+    groupPrice?: string;
+    portionNote?: string;
+    description: string;
+    badges?: MenuBadge[];
+    addOnNote?: string;
     index?: number;
+    /** Gently rotate a face-on plate (e.g. top-down soups) so it reads as
+        placed on a table rather than staring at the viewer. */
+    angled?: boolean;
 }
 
-export default function MenuCard({ title, imageSrc, badge, index = 0 }: MenuCardProps) {
-    // Stagger every even item slightly for an editorial masonry feel
+const BADGE_META: Record<MenuBadge, { label: string; icon: string; color: string }> = {
+    spicy: { label: 'Spicy', icon: '🌶️', color: '#ff6b4d' },
+    special: { label: 'Special', icon: '📕', color: 'var(--color-primary)' },
+    featured: { label: 'Featured', icon: '📷', color: '#e8c874' },
+    new: { label: 'New', icon: '✨', color: '#5fc7b8' },
+};
+
+export default function MenuCard({
+    number,
+    title,
+    imageSrc,
+    price,
+    groupPrice,
+    portionNote,
+    description,
+    badges = [],
+    addOnNote,
+    index = 0,
+    angled = false,
+}: MenuCardProps) {
     const isEven = index % 2 === 0;
 
     return (
-        <div className="menu-card reveal-hidden" style={{ alignItems: 'flex-start', textAlign: 'left', padding: '0', background: 'transparent', boxShadow: 'none', transform: isEven ? 'translateY(0)' : 'translateY(40px)', height: 'auto' }}>
-            <div className="menu-card-visual" style={{ position: 'relative', background: 'var(--color-surface-elevated)', borderRadius: '4px', padding: '32px', marginBottom: '24px', width: '100%', aspectRatio: '1/1', overflow: 'hidden' }}>
-                <Image src={imageSrc} alt={title} fill style={{ objectFit: 'contain', padding: '32px' }} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
-            </div>
-            <div className="menu-card-content" style={{ width: '100%' }}>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: 'var(--color-text-primary)', margin: '0 0 12px 0', lineHeight: 1.3 }}>{title}</h3>
-                {(badge === 'special' || badge === 'spicy') && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        {badge === 'special' && <span style={{ color: 'var(--color-primary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 600 }}>⭐ Signature</span>}
-                        {badge === 'spicy' && <span style={{ color: '#ff4d4d', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 600 }}>🌶️ Fiery</span>}
+        <div className={`reveal-hidden menu-card ${isEven ? 'is-even' : 'is-odd'}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', textAlign: 'left' }}>
+            <div className={`dish${angled ? ' dish--angled' : ''}`} style={{ position: 'relative', width: '100%', aspectRatio: '1/1', marginBottom: '20px' }}>
+                <Image className="dish-img" src={imageSrc} alt={title} fill style={{ padding: '8%' }} sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
+
+                {badges.length > 0 && (
+                    <div style={{ position: 'absolute', top: '0', left: '0', display: 'flex', gap: '6px', flexWrap: 'wrap', maxWidth: 'calc(100% - 24px)', zIndex: 3 }}>
+                        {badges.map((b) => (
+                            <span
+                                key={b}
+                                title={BADGE_META[b].label}
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '4px',
+                                    fontSize: '0.65rem',
+                                    fontWeight: 600,
+                                    letterSpacing: '0.05em',
+                                    textTransform: 'uppercase',
+                                    color: '#fdfbf7',
+                                    backgroundColor: 'rgba(7,9,17,0.72)',
+                                    backdropFilter: 'blur(6px)',
+                                    border: `1px solid ${BADGE_META[b].color}55`,
+                                    borderRadius: 'var(--radius-pill)',
+                                    padding: '4px 10px',
+                                }}
+                            >
+                                <span aria-hidden="true">{BADGE_META[b].icon}</span>
+                                {BADGE_META[b].label}
+                            </span>
+                        ))}
                     </div>
+                )}
+            </div>
+
+            <div style={{ padding: '0 16px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', color: 'var(--color-text-primary)', lineHeight: 1.3, marginBottom: '8px' }}>
+                    {number != null && <span style={{ color: 'var(--color-text-secondary)', fontWeight: 400, marginRight: '10px', fontSize: '1rem' }}>{String(number).padStart(2, '0')}</span>}
+                    {title}
+                    {portionNote && <span style={{ color: 'var(--color-text-secondary)', fontSize: '0.85rem', fontWeight: 400, marginLeft: '8px' }}>{portionNote}</span>}
+                </h3>
+
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                    <span style={{ color: 'var(--color-primary)', fontWeight: 700, fontSize: '1.1rem' }}>{price} BDT</span>
+                    {groupPrice && (
+                        <span style={{ color: 'var(--color-text-secondary)', fontSize: '0.85rem' }}>
+                            · Group {groupPrice} BDT
+                        </span>
+                    )}
+                </div>
+
+                <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: addOnNote ? '8px' : 0 }}>
+                    {description}
+                </p>
+                {addOnNote && (
+                    <p style={{ color: 'var(--color-primary)', fontSize: '0.85rem', fontStyle: 'italic' }}>
+                        {addOnNote}
+                    </p>
                 )}
             </div>
         </div>

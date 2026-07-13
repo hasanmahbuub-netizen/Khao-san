@@ -1,25 +1,27 @@
 "use client";
 import React, { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
-    const pathname = usePathname();
-
     useEffect(() => {
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.15
+            threshold: 0.05
         };
 
-        const observer = new IntersectionObserver((entries, observer) => {
+        const intersectionObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Apply staggered delay for grid items
-                    if (entry.target.classList.contains('food-card') || entry.target.classList.contains('menu-card') || entry.target.classList.contains('masonry-item')) {
-                        const cards = Array.from(document.querySelectorAll('.food-card, .menu-card, .masonry-item'));
-                        const index = cards.indexOf(entry.target);
-                        (entry.target as HTMLElement).style.transitionDelay = `${(index % 6) * 100}ms`;
+                    // Apply generic staggered delay relative to parent children
+                    if (entry.target.classList.contains('reveal-stagger')) {
+                        const parent = entry.target.parentElement;
+                        if (parent) {
+                            const siblings = Array.from(parent.children).filter(el => el.classList.contains('reveal-stagger'));
+                            const index = siblings.indexOf(entry.target);
+                            if (index > -1) {
+                                (entry.target as HTMLElement).style.transitionDelay = `${index * 120}ms`;
+                            }
+                        }
                     }
                     entry.target.classList.add('reveal-visible');
                     observer.unobserve(entry.target);
@@ -27,17 +29,34 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
             });
         }, observerOptions);
 
-        const revealElements = document.querySelectorAll('.reveal-hidden, .story-content, .story-visual, .food-card, .menu-card, .masonry-item, .exp-content, .exp-visual, .gallery-img-1, .gallery-img-2, .gallery-img-3, .res-banner, .res-cinematic-content');
-        
-        revealElements.forEach(el => {
-            if (!el.classList.contains('reveal-hidden')) {
-                el.classList.add('reveal-hidden');
-            }
-            observer.observe(el);
+        const observeElements = () => {
+            const revealElements = document.querySelectorAll('.reveal-hidden, .reveal-clip, .reveal-toss');
+            revealElements.forEach(el => {
+                if (!el.classList.contains('reveal-visible') && !el.hasAttribute('data-observed')) {
+                    el.setAttribute('data-observed', 'true');
+                    intersectionObserver.observe(el);
+                }
+            });
+        };
+
+        // Initial observation
+        observeElements();
+
+        // Watch for Next.js navigation DOM updates
+        const mutationObserver = new MutationObserver(() => {
+            observeElements();
         });
 
-        return () => observer.disconnect();
-    }, [pathname]);
+        mutationObserver.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+
+        return () => {
+            intersectionObserver.disconnect();
+            mutationObserver.disconnect();
+        };
+    }, []);
 
     return <>{children}</>;
 }

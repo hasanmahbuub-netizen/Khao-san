@@ -26,6 +26,15 @@ export default function Header() {
         }
     }, [menuOpen]);
 
+    useEffect(() => {
+        if (!menuOpen) return;
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setMenuOpen(false);
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [menuOpen]);
+
     const closeMenu = () => setMenuOpen(false);
 
     return (
@@ -52,6 +61,16 @@ export default function Header() {
                 background-color: rgba(10, 10, 12, 0.85);
                 backdrop-filter: blur(20px);
                 border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            /* The room arrives once the ember at the logo has bloomed — see
+               .ignition-ember in globals.css, which the logo's glow answers. */
+            html[data-ignition="igniting"] .header-container {
+                opacity: 0;
+                animation: khaosanHeaderArrive 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1.05s forwards;
+            }
+            @keyframes khaosanHeaderArrive {
+                from { opacity: 0; transform: translateY(-6px); }
+                to   { opacity: 1; transform: translateY(0); }
             }
             .header-left {
                 /* Takes up 1fr space to balance the grid */
@@ -84,14 +103,18 @@ export default function Header() {
                 border: none;
                 cursor: pointer;
                 z-index: 101;
-                padding: 8px;
+                /* 44x44 hit area (WCAG 2.5.5) with the icon optically centered */
+                width: 44px;
+                height: 44px;
+                align-items: center;
+                justify-content: center;
             }
             @media (max-width: 1024px) {
                 .desktop-only {
                     display: none !important;
                 }
                 .mobile-menu-btn {
-                    display: block;
+                    display: flex;
                 }
             }
         `}} />
@@ -124,7 +147,7 @@ export default function Header() {
 
             {/* Right Column - Reserve Button & Mobile Hamburger */}
             <div className="header-right">
-                <button onClick={openDrawer} className="btn btn-primary desktop-only" style={{padding: '12px 32px', fontSize: '0.8rem', letterSpacing: '0.15em', borderRadius: '4px', cursor: 'pointer', textTransform: 'uppercase', fontWeight: 700}}>Reserve</button>
+                <button onClick={openDrawer} className="btn btn-primary desktop-only">Reserve</button>
                 
                 {/* Mobile Hamburger */}
                 <button 
@@ -165,14 +188,15 @@ export default function Header() {
             </div>
 
             {/* Mobile Nav Overlay */}
-            <nav 
+            <nav
                 id="mobile-nav-menu"
-                className={`mobile-nav-overlay ${menuOpen ? 'active' : ''}`} 
+                className={`mobile-nav-overlay ${menuOpen ? 'active' : ''}`}
                 aria-hidden={!menuOpen}
+                inert={!menuOpen}
                 style={{
                     position: 'fixed',
                     top: 0,
-                    right: menuOpen ? 0 : '-100%',
+                    right: 0,
                     width: '100%',
                     height: '100vh',
                     backgroundColor: 'rgba(10, 10, 12, 0.98)',
@@ -182,7 +206,11 @@ export default function Header() {
                     justifyContent: 'center',
                     alignItems: 'center',
                     gap: '40px',
-                    transition: 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)',
+                    // Slide via transform (not `right`) so the panel is never
+                    // positioned off-screen in layout — avoids inflating the
+                    // containing block and reliably animates in/out.
+                    transform: menuOpen ? 'translateX(0)' : 'translateX(100%)',
+                    transition: 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)',
                     zIndex: 99
                 }}
             >
@@ -190,7 +218,7 @@ export default function Header() {
                 <Link href="/locations" style={{fontSize: '1.5rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#fdfbf7', textDecoration: 'none', fontWeight: 600}} onClick={closeMenu}>Locations</Link>
                 <Link href="/about" style={{fontSize: '1.5rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#fdfbf7', textDecoration: 'none', fontWeight: 600}} onClick={closeMenu}>Our Story</Link>
                 <Link href="/giftcards" style={{fontSize: '1.5rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#fdfbf7', textDecoration: 'none', fontWeight: 600}} onClick={closeMenu}>Gift Cards</Link>
-                <button onClick={() => { closeMenu(); openDrawer(); }} className="btn btn-primary" style={{marginTop: '24px', padding: '16px 48px', fontSize: '1rem', letterSpacing: '0.15em', borderRadius: '4px', cursor: 'pointer', textTransform: 'uppercase', fontWeight: 700}}>Reserve Table</button>
+                <button onClick={() => { closeMenu(); openDrawer(); }} className="btn btn-primary" style={{marginTop: '24px'}}>Reserve Table</button>
             </nav>
         </header>
         </>

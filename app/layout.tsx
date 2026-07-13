@@ -1,9 +1,26 @@
 import type { Metadata } from "next";
+import { Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ClientWrapper from "@/components/ClientWrapper";
 import { ReservationProvider } from "@/components/ReservationContext";
+import IgnitionVeil from "@/components/ui/ignition-veil";
+
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-playfair-display",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://khaosan.com.bd'),
@@ -40,15 +57,36 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${playfairDisplay.variable} ${montserrat.variable}`}
+      // data-ignition is deliberately set by an inline script before hydration
+      // (see the script below) — same sanctioned pattern as no-flash theme
+      // scripts. SSR can't know it, so this attribute intentionally differs
+      // client-side; suppress the (expected, harmless) hydration warning.
+      suppressHydrationWarning
+    >
       <head>
           <link rel="icon" type="image/webp" href="/assets/Logos-20260709T183558Z-2-001/Logos/Dark Blue.webp" />
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-          <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
       </head>
       <body>
+        {/*
+          Sets data-ignition before first paint (classic no-FOUC pattern —
+          the same technique dark-mode theme scripts use: a plain synchronous
+          script tag, not next/script, which is documented for external
+          critical resources, not inline pre-hydration DOM state) so the
+          homepage's opening sequence never flashes unstyled. Runs once per
+          browser session, and only on the homepage — arriving at the
+          flagship, not every page. suppressHydrationWarning on <html> covers
+          the resulting (expected, harmless) attribute mismatch.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var isHome=location.pathname==='/';var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;var seen=sessionStorage.getItem('khaosan-ignited')==='1';document.documentElement.setAttribute('data-ignition',(isHome&&!reduced&&!seen)?'igniting':'lit');}catch(e){document.documentElement.setAttribute('data-ignition','lit');}})();`,
+          }}
+        />
         <ReservationProvider>
+            <IgnitionVeil />
             <Header />
             <ClientWrapper>
                 <main className="page-transition">{children}</main>
