@@ -387,21 +387,32 @@ export default function Menu() {
                 .menu-nav::-webkit-scrollbar { display: none; }
                 @media (max-width: 1024px) {
                     .menu-nav-section {
-                        top: 72px !important;
+                        top: 80px !important;
                         padding: 0 !important;
+                        width: 100vw !important;
+                        left: 50% !important;
+                        right: 50% !important;
+                        margin-left: -50vw !important;
+                        margin-right: -50vw !important;
+                        background-color: rgba(7, 9, 17, 0.88) !important;
+                        backdrop-filter: blur(12px) !important;
+                        -webkit-backdrop-filter: blur(12px) !important;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
                     }
                     .menu-nav-section > div {
                         justify-content: flex-start !important;
-                        padding: 0 16px !important;
+                        padding: 0 !important;
+                        width: 100% !important;
+                        max-width: 100% !important;
                     }
                     .menu-nav {
                         max-width: 100% !important;
+                        width: 100% !important;
                         border-radius: 0 !important;
                         border: none !important;
-                        border-bottom: 1px solid var(--color-border) !important;
-                        background-color: var(--color-background-base) !important;
+                        background-color: transparent !important;
                         box-shadow: none !important;
-                        padding: 4px 16px !important;
+                        padding: 8px 16px !important;
                         overflow-x: auto !important;
                         -webkit-overflow-scrolling: touch !important;
                     }
