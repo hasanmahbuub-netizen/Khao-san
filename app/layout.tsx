@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import ClientWrapper from "@/components/ClientWrapper";
 import { ReservationProvider } from "@/components/ReservationContext";
-import IgnitionVeil from "@/components/ui/ignition-veil";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -68,30 +65,27 @@ export default function RootLayout({
     >
       <head>
           <link rel="icon" type="image/webp" href="/assets/Logos-20260709T183558Z-2-001/Logos/Dark Blue.webp" />
+          {/*
+            Sets data-ignition before first paint (classic no-FOUC pattern —
+            the same technique dark-mode theme scripts use: a plain synchronous
+            script tag, not next/script, which is documented for external
+            critical resources, not inline pre-hydration DOM state) so the
+            homepage's opening sequence never flashes unstyled. Runs once per
+            browser session, and only on the homepage — arriving at the
+            flagship, not every page. suppressHydrationWarning on <html> covers
+            the resulting (expected, harmless) attribute mismatch.
+          */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function(){try{var isHome=location.pathname==='/';var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;var seen=sessionStorage.getItem('khaosan-ignited')==='1';document.documentElement.setAttribute('data-ignition',(isHome&&!reduced&&!seen)?'igniting':'lit');}catch(e){document.documentElement.setAttribute('data-ignition','lit');}})();`,
+            }}
+          />
       </head>
       <body>
-        {/*
-          Sets data-ignition before first paint (classic no-FOUC pattern —
-          the same technique dark-mode theme scripts use: a plain synchronous
-          script tag, not next/script, which is documented for external
-          critical resources, not inline pre-hydration DOM state) so the
-          homepage's opening sequence never flashes unstyled. Runs once per
-          browser session, and only on the homepage — arriving at the
-          flagship, not every page. suppressHydrationWarning on <html> covers
-          the resulting (expected, harmless) attribute mismatch.
-        */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var isHome=location.pathname==='/';var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;var seen=sessionStorage.getItem('khaosan-ignited')==='1';document.documentElement.setAttribute('data-ignition',(isHome&&!reduced&&!seen)?'igniting':'lit');}catch(e){document.documentElement.setAttribute('data-ignition','lit');}})();`,
-          }}
-        />
         <ReservationProvider>
-            <IgnitionVeil />
-            <Header />
             <ClientWrapper>
-                <main className="page-transition">{children}</main>
+                {children}
             </ClientWrapper>
-            <Footer />
         </ReservationProvider>
       </body>
     </html>

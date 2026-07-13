@@ -1,0 +1,35 @@
+import { NextResponse } from 'next/server';
+
+export async function POST(request: Request) {
+    try {
+        const body = await request.json();
+        const { username, password } = body;
+
+        // Hardcoded credentials for MVP
+        if (username === 'Khao san' && password === 'Khaosanthaifood007@') {
+            const response = NextResponse.json({ success: true }, { status: 200 });
+            
+            // Set cookie for 7 days
+            response.cookies.set({
+                name: 'khao_san_admin_session',
+                value: 'authenticated',
+                httpOnly: true,
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 60 * 60 * 24 * 7, // 1 week
+            });
+            
+            return response;
+        }
+
+        return NextResponse.json(
+            { error: 'Invalid credentials' },
+            { status: 401 }
+        );
+    } catch (error) {
+        return NextResponse.json(
+            { error: 'Internal Server Error' },
+            { status: 500 }
+        );
+    }
+}

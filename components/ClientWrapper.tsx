@@ -1,7 +1,13 @@
 "use client";
 import React, { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import IgnitionVeil from "@/components/ui/ignition-veil";
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
+    const isAdmin = pathname?.startsWith('/admin');
     useEffect(() => {
         const observerOptions = {
             root: null,
@@ -58,5 +64,16 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
         };
     }, []);
 
-    return <>{children}</>;
+    return (
+        <>
+            {!isAdmin && <IgnitionVeil />}
+            {!isAdmin && <Header />}
+            {isAdmin ? (
+                children
+            ) : (
+                <main className="page-transition">{children}</main>
+            )}
+            {!isAdmin && <Footer />}
+        </>
+    );
 }
