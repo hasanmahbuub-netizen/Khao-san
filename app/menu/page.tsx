@@ -385,6 +385,28 @@ export default function Menu() {
             </div>
             <style dangerouslySetInnerHTML={{__html: `
                 .menu-nav::-webkit-scrollbar { display: none; }
+                @media (max-width: 1024px) {
+                    .menu-nav-section {
+                        top: 72px !important;
+                        padding: 0 !important;
+                    }
+                    .menu-nav-section > div {
+                        justify-content: flex-start !important;
+                        padding: 0 16px !important;
+                        overflow-x: auto !important;
+                        -webkit-overflow-scrolling: touch !important;
+                    }
+                    .menu-nav {
+                        max-width: none !important;
+                        width: max-content !important;
+                        border-radius: 0 !important;
+                        border: none !important;
+                        border-bottom: 1px solid var(--color-border) !important;
+                        background-color: var(--color-background-base) !important;
+                        box-shadow: none !important;
+                        padding: 4px 16px !important;
+                    }
+                }
             `}} />
         </section>
 
