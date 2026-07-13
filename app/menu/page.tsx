@@ -200,6 +200,8 @@ const prefersReducedMotion = () =>
 
 export default function Menu() {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
     const navRefs = useRef<(HTMLAnchorElement | null)[]>([]);
     const [pillStyle, setPillStyle] = useState({ left: 0, width: 0, opacity: 0 });
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -385,6 +387,9 @@ export default function Menu() {
             </div>
             <style dangerouslySetInnerHTML={{__html: `
                 .menu-nav::-webkit-scrollbar { display: none; }
+                .mobile-vertical-nav {
+                    display: none;
+                }
                 @media (max-width: 1024px) {
                     .menu-nav-section {
                         top: 80px !important;
@@ -418,14 +423,189 @@ export default function Menu() {
                     }
                 }
                 @media (max-width: 768px) {
+                    /* Hide horizontal nav entirely on phone */
+                    .menu-nav-section {
+                        display: none !important;
+                    }
+                    
+                    /* Shrink food section content to make whitespace on the right */
+                    .menu-sections {
+                        padding-right: 56px !important;
+                        padding-top: 100px !important;
+                    }
+                    .menu-category .container {
+                        padding-right: 8px !important;
+                        padding-left: 16px !important;
+                    }
+                    
+                    /* Responsive category headers */
                     .menu-category h2 {
                         font-size: 2rem !important;
-                        padding-bottom: 24px !important;
-                        margin-bottom: 48px !important;
+                        padding-bottom: 16px !important;
+                        margin-bottom: 32px !important;
+                    }
+                    
+                    /* Vertical Sidebar Nav */
+                    .mobile-vertical-nav {
+                        display: flex !important;
+                        position: fixed;
+                        right: 0;
+                        top: 0;
+                        bottom: 0;
+                        width: 56px;
+                        z-index: 90;
+                        align-items: center;
+                        justify-content: center;
+                        pointer-events: auto;
+                    }
+                    
+                    .dots-track {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 10px;
+                        cursor: pointer;
+                        padding: 20px 10px;
+                        z-index: 92;
+                        position: relative;
+                        width: 100%;
+                    }
+                    
+                    .nav-dash {
+                        width: 12px;
+                        height: 2px;
+                        background-color: rgba(255, 255, 255, 0.25);
+                        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+                        border-radius: 1px;
+                    }
+                    .nav-dash.active {
+                        width: 22px;
+                        background-color: var(--color-primary);
+                    }
+                    
+                    .expanded-sidebar {
+                        position: fixed;
+                        right: 0;
+                        top: 0;
+                        bottom: 0;
+                        width: 260px;
+                        background-color: rgba(7, 9, 17, 0.94);
+                        backdrop-filter: blur(20px);
+                        -webkit-backdrop-filter: blur(20px);
+                        border-left: 1px solid rgba(255, 255, 255, 0.08);
+                        z-index: 91;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        padding: 40px 24px;
+                        transform: translateX(100%);
+                        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+                    }
+                    .expanded-sidebar.open {
+                        transform: translateX(0);
+                    }
+                    
+                    .sidebar-link {
+                        font-family: var(--font-display);
+                        font-size: 1.25rem;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        letter-spacing: 2px;
+                        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+                        display: block;
+                        padding: 8px 0;
                     }
                 }
             `}} />
         </section>
+
+        {/* Mobile Vertical Navigation Overlay (renders on phone screens) */}
+        {mobileMenuOpen && (
+            <div 
+                className="nav-backdrop"
+                onClick={() => { setMobileMenuOpen(false); setFocusedIndex(null); }}
+                style={{
+                    position: 'fixed',
+                    inset: 0,
+                    zIndex: 89,
+                    backgroundColor: 'rgba(0,0,0,0.4)',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)'
+                }}
+            />
+        )}
+
+        <div 
+            className="mobile-vertical-nav"
+            onMouseEnter={() => { setMobileMenuOpen(true); setFocusedIndex(activeIndex); }}
+            onMouseLeave={() => { setMobileMenuOpen(false); setFocusedIndex(null); }}
+            onTouchStart={() => setMobileMenuOpen(true)}
+        >
+            {/* The vertical dashes track */}
+            <div 
+                className="dots-track"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+                {MENU_DATA.map((category, index) => {
+                    const isActive = activeIndex === index;
+                    return (
+                        <div
+                            key={category.id}
+                            className={`nav-dash ${isActive ? 'active' : ''}`}
+                        />
+                    );
+                })}
+            </div>
+
+            {/* The Expanded Side Menu (Slides out to the left) */}
+            <div className={`expanded-sidebar ${mobileMenuOpen ? 'open' : ''}`}>
+                <div 
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '12px',
+                        overflowY: 'auto',
+                        maxHeight: '80vh',
+                        paddingRight: '6px'
+                    }}
+                >
+                    {MENU_DATA.map((category, index) => {
+                        const isActive = activeIndex === index;
+                        const isFocused = focusedIndex === index;
+                        // Focus visual effect (fish-eye opacity focal point)
+                        // If something is focused, adjacent ones are 0.25 opacity. If nothing focused, active is 1, rest are 0.4.
+                        let opacityVal = 0.35;
+                        if (focusedIndex !== null) {
+                            opacityVal = isFocused ? 1 : 0.2;
+                        } else {
+                            opacityVal = isActive ? 1 : 0.4;
+                        }
+
+                        return (
+                            <a
+                                key={category.id}
+                                href={`#${category.id}`}
+                                className="sidebar-link"
+                                onClick={(e) => {
+                                    handleClick(e, index, category.id);
+                                    setMobileMenuOpen(false);
+                                    setFocusedIndex(null);
+                                }}
+                                onMouseEnter={() => setFocusedIndex(index)}
+                                onMouseLeave={() => setFocusedIndex(null)}
+                                style={{
+                                    color: (isFocused || (focusedIndex === null && isActive)) ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+                                    opacity: opacityVal,
+                                    transform: isFocused ? 'scale(1.05) translateX(-6px)' : 'scale(1) translateX(0)',
+                                }}
+                            >
+                                {category.name}
+                            </a>
+                        );
+                    })}
+                </div>
+            </div>
+        </div>
 
         {/*  Menu Sections  */}
         <div className="menu-sections" style={{backgroundColor: 'var(--color-surface-base)', paddingTop: 'clamp(56px, 7vw, 104px)', paddingBottom: '80px'}}>
