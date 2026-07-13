@@ -393,18 +393,24 @@ export default function Menu() {
                     .menu-nav-section > div {
                         justify-content: flex-start !important;
                         padding: 0 16px !important;
-                        overflow-x: auto !important;
-                        -webkit-overflow-scrolling: touch !important;
                     }
                     .menu-nav {
-                        max-width: none !important;
-                        width: max-content !important;
+                        max-width: 100% !important;
                         border-radius: 0 !important;
                         border: none !important;
                         border-bottom: 1px solid var(--color-border) !important;
                         background-color: var(--color-background-base) !important;
                         box-shadow: none !important;
                         padding: 4px 16px !important;
+                        overflow-x: auto !important;
+                        -webkit-overflow-scrolling: touch !important;
+                    }
+                }
+                @media (max-width: 768px) {
+                    .menu-category h2 {
+                        font-size: 2rem !important;
+                        padding-bottom: 24px !important;
+                        margin-bottom: 48px !important;
                     }
                 }
             `}} />

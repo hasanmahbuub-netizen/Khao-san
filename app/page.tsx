@@ -127,15 +127,6 @@ export default function Home() {
                         <figcaption className="hm-cap">Dhanmondi &middot; Original</figcaption>
                     </figure>
 
-                    <div className="hm hm--note">
-                        <p>
-                            Khao San is a bridge. We preserve the raw techniques and heat of
-                            legendary Thai street stalls, then set them in a room built for
-                            sharing. No shortcuts &mdash; just authentic craft.
-                        </p>
-                        <Link href="/about" className="btn btn-secondary">Discover Our Story</Link>
-                    </div>
-
                     <figure className="hm hm--wide">
                         <Image
                             src="/assets/Location_Image_1_1/Uttara_Outlet_3.webp"
@@ -147,6 +138,15 @@ export default function Home() {
                         <div className="hm-scrim" aria-hidden="true"></div>
                         <figcaption className="hm-cap">Uttara &middot; Sanctuary</figcaption>
                     </figure>
+
+                    <div className="hm hm--note">
+                        <p>
+                            Khao San is a bridge. We preserve the raw techniques and heat of
+                            legendary Thai street stalls, then set them in a room built for
+                            sharing. No shortcuts &mdash; just authentic craft.
+                        </p>
+                        <Link href="/about" className="btn btn-secondary">Discover Our Story</Link>
+                    </div>
                 </div>
             </div>
         </section>
