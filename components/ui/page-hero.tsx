@@ -17,8 +17,8 @@ export default function PageHero({
 }: PageHeroProps) {
     return (
         <section className="page-hero" style={{
-            paddingTop: '180px', 
-            paddingBottom: '100px', 
+            paddingTop: '160px',
+            paddingBottom: '52px',
             position: 'relative', 
             overflow: 'hidden',
             backgroundImage: backgroundImage, 

@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
     --color-primary: #f08b43;
     --color-secondary: #D76F30; /* Burnt Saffron */
@@ -548,6 +550,72 @@ select.premium-input {
 .menu-category {
     scroll-margin-top: 160px; /* Offset for sticky header + nav */
 }
+
+/* Phone-only contextual section rail — a Google-Docs-style document outline.
+   Hidden on desktop (the horizontal pill nav owns that); on phones it's a slim
+   fixed rail of dashes you drag a finger along to magnify sections, releasing
+   (or tapping) to jump. Never a panel/drawer — content stays visible. */
+/* phone-only section rail */
+.menu-rail { display: none; }
+@media (max-width: 768px) {
+    .menu-rail {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+        position: fixed;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 90;
+        max-height: 80vh;
+        overflow-y: auto;
+        scrollbar-width: none;
+        padding: 12px 2px;
+        touch-action: none;
+        -webkit-overflow-scrolling: touch;
+    }
+    .menu-rail::-webkit-scrollbar { display: none; }
+    .menu-rail-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 7px 0;
+        min-height: 22px;
+        text-decoration: none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .menu-rail-name {
+        position: absolute;
+        right: calc(100% + 12px);
+        top: 50%;
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        line-height: 1.05;
+        white-space: nowrap;
+        transform-origin: right center;
+        text-shadow: 0 2px 12px rgba(7, 9, 17, 0.96), 0 0 3px rgba(7, 9, 17, 0.95);
+        transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                    color 0.3s ease;
+        pointer-events: none;
+    }
+    .menu-rail-dash {
+        display: block;
+        height: 2px;
+        border-radius: 1px;
+        transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        pointer-events: none;
+        flex-shrink: 0;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .menu-rail-name, .menu-rail-dash { transition: none !important; }
+}
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -797,8 +865,8 @@ select.premium-input {
 }
 .heritage-quote {
     font-family: var(--font-display);
-    font-size: clamp(2.2rem, 4.4vw, 3.8rem);
-    line-height: 1.12;
+    font-size: clamp(2rem, 3.6vw, 3.4rem);
+    line-height: 1.14;
     color: var(--color-text-primary);
     font-weight: 600;
     font-style: italic;

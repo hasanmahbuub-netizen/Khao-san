@@ -1,3 +1,5 @@
+import SecondaryVertical from "@/components/ui/demo";
+
 export default function AdminOverview() {
     // In the future, this data will be fetched from PostHog / Vercel Analytics / Supabase
     const stats = [
@@ -28,6 +30,11 @@ export default function AdminOverview() {
                 <p style={{ color: 'var(--color-text-secondary)', maxWidth: '600px', margin: '0 auto', lineHeight: 1.7 }}>
                     The backend API structure is fully prepared. Once you provide the Supabase and Analytics credentials, this dashboard will instantly connect and display real-time data from your live systems. Use the sidebar to manage your menu and view incoming reservations.
                 </p>
+            </div>
+
+            <div style={{ marginTop: '48px' }}>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', marginBottom: '16px' }}>HeroUI Tabs Demo</h3>
+                <SecondaryVertical />
             </div>
         </div>
     );

@@ -23,7 +23,7 @@ export default function About() {
 
             <div className="container reveal-hidden" style={{ position: 'relative', zIndex: 2, maxWidth: '1000px' }}>
                 <span className="overline" style={{ color: 'var(--color-primary)', letterSpacing: '4px', display: 'block', marginBottom: '16px' }}>The Thai Way</span>
-                <h1 className="display-1" style={{ marginBottom: '24px', color: 'var(--color-text-primary)', fontFamily: 'var(--font-display)', fontWeight: 700, maxWidth: '800px' }}>
+                <h1 className="display-1" style={{ marginBottom: '24px', color: 'var(--color-text-primary)', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'clamp(2.5rem, 5.4vw, 4.75rem)', lineHeight: 1.05, letterSpacing: '-0.02em', maxWidth: '16ch' }}>
                     Bringing authentic Thai flavours to Dhaka.
                 </h1>
                 <p className="body-large" style={{ color: 'rgba(253,251,247,0.82)', maxWidth: '560px', fontSize: '1.2rem', lineHeight: 1.6, marginBottom: 0 }}>

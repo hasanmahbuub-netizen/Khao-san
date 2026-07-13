@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useSyncExternalStore } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import MenuCard, { MenuBadge } from '@/components/ui/menu-card';
 
@@ -202,6 +203,11 @@ export default function Menu() {
     const [activeIndex, setActiveIndex] = useState(0);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+    // The rail is portalled to <body> so its position:fixed resolves against the
+    // viewport, not the transformed .page-transition <main> that wraps the page.
+    // useSyncExternalStore gives a clean client/server flag with no hydration
+    // mismatch (false on the server, true once mounted on the client).
+    const railMounted = useSyncExternalStore(() => () => {}, () => true, () => false);
     const navRefs = useRef<(HTMLAnchorElement | null)[]>([]);
     const [pillStyle, setPillStyle] = useState({ left: 0, width: 0, opacity: 0 });
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -261,30 +267,46 @@ export default function Menu() {
         }
     };
 
-    const handleTouchMove = (e: React.TouchEvent) => {
-        const touch = e.touches[0];
-        const element = document.elementFromPoint(touch.clientX, touch.clientY);
-        if (element) {
-            const indexAttr = element.getAttribute('data-index');
-            if (indexAttr !== null) {
-                const idx = parseInt(indexAttr, 10);
-                if (!isNaN(idx) && idx !== focusedIndex) {
-                    setFocusedIndex(idx);
-                }
-            }
+    // The phone rail is driven by pointer events (touch → pointer on phones),
+    // so a finger dragged along it can magnify sections and jump on release.
+    const railPressed = useRef(false);
+
+    const focusFromPoint = (clientX: number, clientY: number) => {
+        const element = document.elementFromPoint(clientX, clientY);
+        const indexAttr = element?.getAttribute('data-index');
+        if (indexAttr != null) {
+            const idx = parseInt(indexAttr, 10);
+            if (!isNaN(idx)) setFocusedIndex(idx);
         }
     };
 
-    const handleTouchEnd = () => {
-        if (focusedIndex !== null) {
-            const category = MENU_DATA[focusedIndex];
-            const el = document.getElementById(category.id);
-            if (el) {
-                const y = el.getBoundingClientRect().top + window.scrollY - 140;
-                window.scrollTo({ top: y, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
-                setActiveIndex(focusedIndex);
-            }
+    const jumpTo = (index: number) => {
+        const category = MENU_DATA[index];
+        const el = document.getElementById(category.id);
+        if (el) {
+            const y = el.getBoundingClientRect().top + window.scrollY - 120;
+            window.scrollTo({ top: y, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+            setActiveIndex(index);
         }
+    };
+
+    const handleRailPointerDown = (e: React.PointerEvent) => {
+        railPressed.current = true;
+        setMobileMenuOpen(true);
+        try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); } catch { /* noop */ }
+        focusFromPoint(e.clientX, e.clientY);
+    };
+
+    const handleRailPointerMove = (e: React.PointerEvent) => {
+        if (!railPressed.current) return;
+        focusFromPoint(e.clientX, e.clientY);
+    };
+
+    const handleRailPointerUp = () => {
+        if (railPressed.current && focusedIndex !== null) {
+            jumpTo(focusedIndex);
+        }
+        railPressed.current = false;
         setMobileMenuOpen(false);
         setFocusedIndex(null);
     };
@@ -458,7 +480,7 @@ export default function Menu() {
                     
                     /* Shrink food section content to make whitespace on the right */
                     .menu-sections {
-                        padding-right: 140px !important;
+                        padding-right: 52px !important;
                         padding-top: 100px !important;
                     }
                     .menu-category .container {
@@ -527,108 +549,80 @@ export default function Menu() {
                         line-height: 1.1;
                     }
                 }
+                .desktop-menu-only { display: block; }
+                .mobile-menu-only { display: none; }
+                @media (max-width: 768px) {
+                    .desktop-menu-only { display: none !important; }
+                    .mobile-menu-only { display: block !important; }
+                }
+                /* Mobile specific overrides */
+                @media (max-width: 768px) {
+                    .menu-sections {
+                        padding-right: 24px; /* Give space for dots */
+                    }
+                }
             `}} />
         </section>
 
-        {/* Mobile Vertical Navigation Overlay (renders on phone screens) */}
-        <div 
-            className="mobile-vertical-nav"
-            onMouseEnter={() => { setMobileMenuOpen(true); setFocusedIndex(activeIndex); }}
-            onMouseLeave={() => { setMobileMenuOpen(false); setFocusedIndex(null); }}
-            onTouchStart={() => setMobileMenuOpen(true)}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+        {/* Phone-only contextual section rail — a document-outline navigator.
+            Drag a finger along it and sections magnify under the touch; release
+            or tap to jump. The active section stays marked at all times. Hidden
+            on desktop, where the horizontal pill nav takes over. Portalled to
+            <body> so its position:fixed escapes the transformed page wrapper. */}
+        {railMounted && createPortal(
+        <nav
+            className="menu-rail"
+            aria-label="Menu sections"
+            onPointerDown={handleRailPointerDown}
+            onPointerMove={handleRailPointerMove}
+            onPointerUp={handleRailPointerUp}
+            onPointerCancel={handleRailPointerUp}
         >
-            {/* The category names list (floats next to the dots) */}
-            <div 
-                className="sidebar-names"
-                style={{
-                    opacity: mobileMenuOpen ? 1 : 0,
-                    transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(15px)',
-                    pointerEvents: mobileMenuOpen ? 'auto' : 'none',
-                }}
-            >
-                {MENU_DATA.map((category, index) => {
-                    const isActive = activeIndex === index;
-                    const visualIndex = focusedIndex !== null ? focusedIndex : activeIndex;
-                    const distance = Math.abs(index - visualIndex);
-                    
-                    // Proximity styles for focused scaling list
-                    let scaleVal = 0.75;
-                    let opacityVal = 0.05;
-                    if (distance === 0) {
-                        scaleVal = 1.25;
-                        opacityVal = 1;
-                    } else if (distance === 1) {
-                        scaleVal = 1.0;
-                        opacityVal = 0.5;
-                    } else if (distance === 2) {
-                        scaleVal = 0.85;
-                        opacityVal = 0.2;
-                    }
-                    
-                    return (
-                        <a
-                            key={category.id}
-                            href={`#${category.id}`}
-                            className="sidebar-link"
-                            data-index={index}
-                            onClick={(e) => {
-                                handleClick(e, index, category.id);
-                                setMobileMenuOpen(false);
-                                setFocusedIndex(null);
-                            }}
+            {MENU_DATA.map((category, index) => {
+                const refIndex = focusedIndex !== null ? focusedIndex : activeIndex;
+                const isActive = index === activeIndex;
+                const isRef = index === refIndex;
+                const distance = Math.abs(index - refIndex);
+                const showName = mobileMenuOpen;
+                const dashW = distance === 0 ? 30 : distance === 1 ? 18 : distance === 2 ? 11 : 6;
+                const nameScale = distance === 0 ? 1 : distance === 1 ? 0.9 : 0.82;
+                const nameOpacity = distance === 0 ? 1 : distance === 1 ? 0.72 : distance === 2 ? 0.45 : 0.28;
+                const dashOpacity = isActive ? 1 : 0.25 + (1 - Math.min(distance, 3) / 3) * 0.55;
+                return (
+                    <a
+                        key={category.id}
+                        href={`#${category.id}`}
+                        data-index={index}
+                        aria-current={isActive ? 'true' : undefined}
+                        className="menu-rail-item"
+                        onClick={(e) => e.preventDefault()}
+                    >
+                        <span
+                            className="menu-rail-name"
                             style={{
-                                color: (distance === 0) ? 'var(--color-primary)' : 'var(--color-text-secondary)',
-                                opacity: opacityVal,
-                                transform: `scale(${scaleVal}) translateX(${distance === 0 ? '-4px' : '0px'})`,
-                                pointerEvents: mobileMenuOpen ? 'auto' : 'none'
+                                opacity: showName ? nameOpacity : 0,
+                                transform: `translateY(-50%) translateX(${showName ? 0 : 12}px) scale(${nameScale})`,
+                                color: isRef ? 'var(--color-primary)' : 'var(--color-text-primary)',
                             }}
                         >
                             {category.name}
-                        </a>
-                    );
-                })}
-            </div>
-
-            {/* The vertical dashes track */}
-            <div className="dots-track">
-                {MENU_DATA.map((category, index) => {
-                    const isActive = activeIndex === index;
-                    const visualIndex = focusedIndex !== null ? focusedIndex : activeIndex;
-                    const distance = Math.abs(index - visualIndex);
-                    
-                    // Proximity widths and opacities for the dashes
-                    let widthVal = '6px';
-                    let opacityVal = 0.15;
-                    if (distance === 0) {
-                        widthVal = '24px';
-                        opacityVal = 1;
-                    } else if (distance === 1) {
-                        widthVal = '14px';
-                        opacityVal = 0.65;
-                    } else if (distance === 2) {
-                        widthVal = '8px';
-                        opacityVal = 0.35;
-                    }
-
-                    return (
-                        <div
-                            key={category.id}
-                            data-index={index}
-                            className="nav-dash"
+                        </span>
+                        <span
+                            className="menu-rail-dash"
                             style={{
-                                width: widthVal,
-                                backgroundColor: distance === 0 ? 'var(--color-primary)' : 'rgba(255, 255, 255, 0.7)',
-                                opacity: opacityVal
+                                width: `${dashW}px`,
+                                backgroundColor: isActive ? 'var(--color-primary)' : '#fff',
+                                opacity: dashOpacity,
+                                boxShadow: isActive ? '0 0 10px var(--color-primary)' : 'none',
                             }}
                         />
-                    );
-                })}
-            </div>
-        </div>
+                    </a>
+                );
+            })}
+        </nav>,
+        document.body)}
 
-        {/*  Menu Sections  */}
+        {/* Menu Sections — continuous scroll */}
         <div className="menu-sections" style={{backgroundColor: 'var(--color-surface-base)', paddingTop: 'clamp(56px, 7vw, 104px)', paddingBottom: '80px'}}>
             {MENU_DATA.map((category) => (
                 <section key={category.id} id={category.id} className="menu-category" style={{marginBottom: 'var(--space-macro)'}}>
