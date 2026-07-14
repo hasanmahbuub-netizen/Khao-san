@@ -624,12 +624,12 @@ select.premium-input {
         width: 60px;
         z-index: 9998;
         pointer-events: none;
-        background: linear-gradient(to left, rgba(7,9,17,0.45), transparent);
+        background: linear-gradient(to left, rgba(240,139,67,0.22), transparent);
         transition: width 0.3s ease, background 0.3s ease;
     }
     .menu-rail-backdrop--active {
         width: 130px;
-        background: linear-gradient(to left, rgba(7,9,17,0.88), rgba(7,9,17,0.38) 60%, transparent);
+        background: linear-gradient(to left, rgba(240,139,67,0.48), rgba(240,139,67,0.12) 60%, transparent);
     }
 
     /* Active rail — labels get a solid dark pill behind them so they're always
