@@ -1516,6 +1516,104 @@ select.premium-input {
     .footer-bottom { justify-content: flex-start; }
 }
 
+/* --- Mobile Responsiveness Adjustments --- */
+.location-card-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    min-height: 800px;
+    display: flex;
+    align-items: center;
+    margin-left: calc(50% - 50vw);
+}
+
+.location-card-image-wrapper {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+}
+
+.location-card-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 700px;
+    padding: 0 8vw;
+}
+
+.location-card-gradient {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+}
+
+.location-card-gradient.align-left {
+    background: linear-gradient(to right, rgba(5, 7, 10, 0.98) 0%, rgba(5, 7, 10, 0.7) 45%, rgba(5, 7, 10, 0) 100%);
+}
+
+.location-card-gradient.align-right {
+    background: linear-gradient(to left, rgba(5, 7, 10, 0.98) 0%, rgba(5, 7, 10, 0.7) 45%, rgba(5, 7, 10, 0) 100%);
+}
+
+.section-reservation {
+    position: relative;
+    overflow: hidden;
+    padding: 160px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    /* Compress Reservation Section to a cinematic wide crop on mobile */
+    .section-reservation {
+        padding: 64px 0;
+    }
+    
+    /* Rebuild LocationCard for Portrait Screens */
+    .location-card-container {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        height: auto;
+        min-height: auto;
+    }
+    
+    /* The photo takes the top portion, preserving aspect ratio */
+    .location-card-image-wrapper {
+        position: relative;
+        height: 60vh;
+        width: 100vw;
+    }
+
+    /* Gradient now serves as a soft floor fading up */
+    .location-card-gradient,
+    .location-card-gradient.align-left,
+    .location-card-gradient.align-right {
+        top: auto;
+        bottom: 0;
+        height: 50vh;
+        background: linear-gradient(to top, rgba(5, 7, 10, 1) 0%, rgba(5, 7, 10, 0.95) 40%, rgba(5, 7, 10, 0) 100%);
+    }
+
+    .location-card-content {
+        text-align: left !important;
+        padding: 48px 24px;
+        background-color: rgba(5, 7, 10, 1);
+        margin-top: -120px; /* pull up over the gradient */
+    }
+    
+    .location-card-content p,
+    .location-card-content div {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+    }
+}
+
 /* Phase 8: Responsive Adaptation */
 
 /* Tablet (max-width: 1024px) */

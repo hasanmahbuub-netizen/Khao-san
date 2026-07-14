@@ -400,7 +400,7 @@ export default function Home() {
         </section>
 
         {/* CHAPTER VII: THE INVITATION */}
-        <section style={{position: 'relative', overflow: 'hidden', padding: '160px 0', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <section className="section-reservation">
             <SectionBlend />
             <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0}}>
                 <Image src="/assets/Background-20260709T183540Z-2-001/Background/Landing Page Section/Lotus background.webp" alt="" fill className="img-feather" style={{objectFit: 'cover'}} />
