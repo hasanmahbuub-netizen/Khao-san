@@ -612,6 +612,34 @@ select.premium-input {
         pointer-events: none;
         flex-shrink: 0;
     }
+
+    /* Backdrop strip — a dark scrim behind the rail area. At rest it's a subtle
+       edge gradient so white dashes don't vanish against white menu text. On
+       touch it darkens and widens so rail labels sit on a solid readable band. */
+    .menu-rail-backdrop {
+        position: fixed;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 60px;
+        z-index: 9998;
+        pointer-events: none;
+        background: linear-gradient(to left, rgba(7,9,17,0.45), transparent);
+        transition: width 0.3s ease, background 0.3s ease;
+    }
+    .menu-rail-backdrop--active {
+        width: 130px;
+        background: linear-gradient(to left, rgba(7,9,17,0.88), rgba(7,9,17,0.38) 60%, transparent);
+    }
+
+    /* Active rail — labels get a solid dark pill behind them so they're always
+       readable, no matter what menu content sits behind the rail. */
+    .menu-rail--active .menu-rail-name {
+        background: rgba(7,9,17,0.9);
+        border-radius: var(--radius-sm);
+        padding: 5px 14px;
+        right: calc(100% + 18px);
+    }
 }
 @media (prefers-reduced-motion: reduce) {
     .menu-rail-name, .menu-rail-dash { transition: none !important; }

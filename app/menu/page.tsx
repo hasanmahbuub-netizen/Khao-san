@@ -505,9 +505,16 @@ export default function Menu() {
             on desktop, where the horizontal pill nav takes over. Portalled to
             <body> so its position:fixed escapes the transformed page wrapper. */}
         {railVisible && createPortal(
+        <>
+        {/* Backdrop strip — darkens the rail area on touch so white labels
+            never collide with white menu content behind them. */}
+        <div
+            aria-hidden="true"
+            className={`menu-rail-backdrop ${mobileMenuOpen ? 'menu-rail-backdrop--active' : ''}`}
+        />
         <nav
             ref={railRef}
-            className="menu-rail"
+            className={`menu-rail ${mobileMenuOpen ? 'menu-rail--active' : ''}`}
             aria-label="Menu sections"
             onTouchStart={(e) => { e.preventDefault(); const t = e.touches[0]; handleRailStart(t.clientX, t.clientY); }}
             onTouchMove={(e) => { e.preventDefault(); const t = e.touches[0]; handleRailMove(t.clientY); }}
@@ -561,6 +568,7 @@ export default function Menu() {
                 );
             })}
         </nav>,
+        </>,
         document.body)}
 
         {/* Menu Sections — continuous scroll */}
