@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     // NOTE: No persistent store is connected yet. This endpoint validates the
     // request and returns a confirmation code so the frontend flow is complete
     // end-to-end. Wire this to a database or notification service (email/SMS/
-    // WhatsApp Business API) here when one is available — the contract
+    // WhatsApp Business API) here when one is available - the contract
     // (request/response shape) below is stable and won't need to change.
     return NextResponse.json({
         success: true,

@@ -41,7 +41,7 @@ export default function EditorialBlock({
                     {children}
                 </div>
                 
-                {/* Media Side — videos feather into the page (no hard frame);
+                {/* Media Side - videos feather into the page (no hard frame);
                     still images keep the rounded editorial card treatment. */}
                 <div className="reveal-hidden" style={{
                     flex: '1 1 500px',

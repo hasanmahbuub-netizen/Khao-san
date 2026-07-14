@@ -9,7 +9,7 @@ export interface BackgroundVideoProps {
     poster?: string;
     /**
      * Provide only when the footage conveys meaning. Omit for purely
-     * decorative ambiance — the video is then hidden from assistive tech.
+     * decorative ambiance - the video is then hidden from assistive tech.
      */
     label?: string;
 }

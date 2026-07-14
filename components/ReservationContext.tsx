@@ -170,7 +170,7 @@ export function ReservationProvider({ children }: { children: ReactNode }) {
                     backgroundColor: 'var(--color-surface-elevated)',
                     zIndex: 1000,
                     // Slide via transform (not `right`) so the closed panel is
-                    // never positioned off-screen in layout — that would inflate
+                    // never positioned off-screen in layout - that would inflate
                     // the containing block and push other fixed overlays off too.
                     transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
                     transition: 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)',

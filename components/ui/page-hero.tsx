@@ -32,7 +32,7 @@ export default function PageHero({
                 left: 0,
                 width: '100%',
                 height: '100%',
-                background: 'linear-gradient(180deg, rgba(7, 9, 17, 0.72) 0%, rgba(7, 9, 17, 0.55) 45%, rgba(7, 9, 17, 0.8) 100%)',
+                background: 'linear-gradient(180deg, rgba(5, 7, 10, 0.72) 0%, rgba(5, 7, 10, 0.55) 45%, rgba(5, 7, 10, 0.8) 100%)',
                 zIndex: 0
             }}></div>
 

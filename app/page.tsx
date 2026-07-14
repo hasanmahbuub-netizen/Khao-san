@@ -17,7 +17,6 @@ export default function Home() {
         <>
         {/* CHAPTER I: THE THRESHOLD (Hero) */}
         <section className="hero" style={{position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'var(--color-surface-base)'}}>
-            <SectionBlend />
             <BackgroundVideo
                 src="/assets/Brand_Asset/Khao_San_Thoughtful_interiors_fl_1602693357399955_720p_20260706.mp4"
                 style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, opacity: 0.4}}
@@ -38,7 +37,8 @@ export default function Home() {
                     <Link href="/menu" className="btn btn-secondary">Explore Menu</Link>
                 </div>
             </div>
-
+            
+            <SectionBlend />
         </section>
 
         {/* The seam between chapters is a mark, not a cut */}
@@ -54,7 +54,7 @@ export default function Home() {
             <div className="container" style={{position: 'relative', zIndex: 2, paddingTop: 'var(--space-macro)', paddingBottom: 'var(--space-macro)'}}>
                 <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8vw', margin: '0 auto'}}>
                     
-                    {/* Media Side — feathered so the footage dissolves into the
+                    {/* Media Side - feathered so the footage dissolves into the
                         section rather than reading as an outlined rectangle */}
                     <div className="reveal-hidden" style={{
                         flex: '1 1 500px',
@@ -88,7 +88,7 @@ export default function Home() {
             </div>
         </SectionOverlay>
 
-        {/* CHAPTER III: THE STORY — immersive editorial storytelling band */}
+        {/* CHAPTER III: THE STORY - immersive editorial storytelling band */}
         <section className="heritage reveal-hidden bg-lattice--quiet">
             <SectionBlend />
             <div className="heritage-inner">
@@ -151,7 +151,7 @@ export default function Home() {
             </div>
         </section>
  
-        {/* CHAPTER IV: THE EXHIBITION (Food Spotlight) — a clean gallery wall,
+        {/* CHAPTER IV: THE EXHIBITION (Food Spotlight) - a clean gallery wall,
             not another full lotus wash, so the photography carries the section */}
         <section className="bg-lattice" style={{ position: 'relative', padding: 'var(--space-macro) 0', overflow: 'hidden' }}>
             <SectionBlend />
@@ -163,7 +163,7 @@ export default function Home() {
                 </div>
 
                 <div style={{display: 'flex', flexDirection: 'column', gap: 'clamp(80px, 12vw, 160px)', maxWidth: '1120px', margin: '0 auto'}}>
-                    {/* 01 — Pad Thai: large plate left, copy set into the right column */}
+                    {/* 01 - Pad Thai: large plate left, copy set into the right column */}
                     <div className="spread">
                     <div className="spread-media reveal-toss">
                         <div className="dish dish--angled" style={{ position: 'relative', aspectRatio: '1/1' }}>
@@ -184,7 +184,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    {/* 02 — Tom Yum: copy left, large plate bleeding into the right */}
+                    {/* 02 - Tom Yum: copy left, large plate bleeding into the right */}
                     <div className="spread spread--reverse">
                         <div className="spread-copy">
                             <div className="spread-meta">
@@ -235,6 +235,7 @@ export default function Home() {
                         hours={["Sat–Thu: 12:00 PM – 11:00 PM", "Friday: 2:00 PM – 11:00 PM"]}
                         imageSrc="/assets/Location_Image_1_1/Gulshan_Outlet_2.webp"
                         mapQuery="Level 1, Progress Tower, House 1, Road 23, Gulshan 1, Dhaka"
+                        blendTop={true}
                     />
 
                     <LocationCard
@@ -258,6 +259,7 @@ export default function Home() {
                         hours={["Sat–Thu: 12:00 PM – 11:00 PM", "Friday: 2:00 PM – 11:00 PM"]}
                         imageSrc="/assets/Location_Image_1_1/Uttara_Outlet_3.webp"
                         mapQuery="House 30, Tropical Sormi Center, Sector 13, Garib-E-Newaz Ave, Uttara, Dhaka"
+                        blendBottom={true}
                     />
                 </div>
 
@@ -265,7 +267,7 @@ export default function Home() {
                     <Link href="/locations" className="btn btn-secondary">View All Details &rarr;</Link>
                 </div>
             </div></section>
-        {/* CHAPTER VI: THE GIFT — dark, with a single restrained saffron brush
+        {/* CHAPTER VI: THE GIFT - dark, with a single restrained saffron brush
             accent and a warm glow. overflow:hidden keeps the tilted cards from
             spilling into the Reserve section below. */}
         <section className="reveal-hidden" style={{ position: 'relative', overflow: 'hidden', backgroundColor: 'var(--color-surface-base)' }}>
@@ -274,7 +276,7 @@ export default function Home() {
             <div className="container" style={{position: 'relative', zIndex: 2, paddingTop: 'var(--space-macro)', paddingBottom: 'var(--space-macro)'}}>
                 <div className="landing-gift-grid">
 
-                    {/* Header — desktop: col 1 row 1. Mobile: first (order -2). */}
+                    {/* Header - desktop: col 1 row 1. Mobile: first (order -2). */}
                     <h2 className="reveal-stagger landing-gift-head" style={{
                         fontFamily: 'var(--font-display)',
                         fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
@@ -285,7 +287,7 @@ export default function Home() {
                         An evening, <span style={{color: 'var(--color-primary)', fontStyle: 'italic'}}>Gifted.</span>
                     </h2>
 
-                    {/* Body — desktop: col 1 row 2. Mobile: last (order 0). */}
+                    {/* Body - desktop: col 1 row 2. Mobile: last (order 0). */}
                     <div className="reveal-stagger landing-gift-body">
                         <p style={{
                             color: '#fdfbf7',
@@ -326,7 +328,7 @@ export default function Home() {
                         </Link>
                     </div>
 
-                    {/* Cards — desktop: col 2 rows 1-2. Mobile: second (order -1). */}
+                    {/* Cards - desktop: col 2 rows 1-2. Mobile: second (order -1). */}
                     <div className="reveal-hidden landing-gift-cards" style={{position: 'relative', minHeight: '460px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
 
                         {/* Dynamic Orange Brush/Splash Backdrop - Sweeping Curve */}
@@ -403,13 +405,13 @@ export default function Home() {
             <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0}}>
                 <Image src="/assets/Background-20260709T183540Z-2-001/Background/Landing Page Section/Lotus background.webp" alt="" fill className="img-feather" style={{objectFit: 'cover'}} />
             </div>
-            <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(7, 9, 17, 0.8)', zIndex: 1}}></div>
+            <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(5, 7, 10, 0.8)', zIndex: 1}}></div>
             
             <BackgroundVideo
                 src="/assets/Brand_Asset/Khao_San_The_wait_is_finally_over_2134770693761947_1080p_20260706.mp4"
-                style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1, opacity: 0.4}}
+                style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1, opacity: 0.75}}
             />
-            <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, rgba(7, 9, 17, 0.55) 0%, rgba(7, 9, 17, 0.85) 100%)', zIndex: 1}}></div>
+            <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, rgba(5, 7, 10, 0.25) 0%, rgba(5, 7, 10, 0.75) 100%)', zIndex: 1}}></div>
 
             <div className="container reveal-hidden" style={{position: 'relative', zIndex: 2, maxWidth: '700px', textAlign: 'center'}}>
                 <span className="overline" style={{color: 'var(--color-primary)', display: 'block', marginBottom: '24px'}}>The Final Table</span>

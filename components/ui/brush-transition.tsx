@@ -10,7 +10,7 @@ export interface BrushTransitionProps {
  * Marks a chapter boundary the way Khao San would mark it: not a cut, but a
  * stroke. Uses the brand's own (previously unused for this purpose)
  * hand-painted brush asset, swept once across the seam as the next chapter
- * nears the center of the viewport — like a line being laid down between
+ * nears the center of the viewport - like a line being laid down between
  * one scene and the next, not a section simply ending.
  *
  * Fires once per page view. Skipped entirely under reduced motion (this is

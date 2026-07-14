@@ -62,7 +62,7 @@ export default function Header() {
                 backdrop-filter: blur(20px);
                 border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             }
-            /* The room arrives once the ember at the logo has bloomed — see
+            /* The room arrives once the ember at the logo has bloomed - see
                .ignition-ember in globals.css, which the logo's glow answers. */
             html[data-ignition="igniting"] .header-container {
                 opacity: 0;
@@ -207,7 +207,7 @@ export default function Header() {
                     alignItems: 'center',
                     gap: '40px',
                     // Slide via transform (not `right`) so the panel is never
-                    // positioned off-screen in layout — avoids inflating the
+                    // positioned off-screen in layout - avoids inflating the
                     // containing block and reliably animates in/out.
                     transform: menuOpen ? 'translateX(0)' : 'translateX(100%)',
                     transition: 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)',

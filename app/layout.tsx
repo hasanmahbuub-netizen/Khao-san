@@ -58,7 +58,7 @@ export default function RootLayout({
       lang="en"
       className={`${playfairDisplay.variable} ${montserrat.variable}`}
       // data-ignition is deliberately set by an inline script before hydration
-      // (see the script below) — same sanctioned pattern as no-flash theme
+      // (see the script below) - same sanctioned pattern as no-flash theme
       // scripts. SSR can't know it, so this attribute intentionally differs
       // client-side; suppress the (expected, harmless) hydration warning.
       suppressHydrationWarning
@@ -66,12 +66,12 @@ export default function RootLayout({
       <head>
           <link rel="icon" type="image/webp" href="/assets/Logos-20260709T183558Z-2-001/Logos/Dark Blue.webp" />
           {/*
-            Sets data-ignition before first paint (classic no-FOUC pattern —
+            Sets data-ignition before first paint (classic no-FOUC pattern -
             the same technique dark-mode theme scripts use: a plain synchronous
             script tag, not next/script, which is documented for external
             critical resources, not inline pre-hydration DOM state) so the
             homepage's opening sequence never flashes unstyled. Runs once per
-            browser session, and only on the homepage — arriving at the
+            browser session, and only on the homepage - arriving at the
             flagship, not every page. suppressHydrationWarning on <html> covers
             the resulting (expected, harmless) attribute mismatch.
           */}

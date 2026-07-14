@@ -4,12 +4,12 @@
     --color-primary: #f08b43;
     --color-secondary: #D76F30; /* Burnt Saffron */
     --color-accent: #f08b43;
-    --color-surface-base: #070911;
-    --color-surface-elevated: #111115;
+    --color-surface-base: #090D14;
+    --color-surface-elevated: #101520;
     --color-surface-alt: #f08b43;
-    --color-text-primary: #fdfbf7;
-    --color-text-secondary: #a0a0a0;
-    --color-border: rgba(255, 255, 255, 0.08);
+    --color-text-primary: #E1DCD3;
+    --color-text-secondary: #AFA89D;
+    --color-border: rgba(255, 255, 255, 0.06);
 
     /* Brand Accent Colors */
     --color-burnt-saffron: #D76F30;
@@ -20,15 +20,15 @@
 
     --space-micro: 8px;
     --space-component: 24px;
-    --space-layout: 64px;
-    --space-macro: 190px;
+    --space-layout: 48px;
+    --space-macro: 120px;
 
     --font-display: var(--font-playfair-display), serif;
     --font-sans: var(--font-montserrat), sans-serif;
     --font-heading: var(--font-playfair-display), serif;
     --font-body: var(--font-playfair-display), serif;
 
-    /* Unified corner-radius system — one language across buttons, cards,
+    /* Unified corner-radius system - one language across buttons, cards,
        media, inputs, and modals instead of mixed ad-hoc values. */
     --radius-sm: 8px;
     --radius-md: 14px;
@@ -36,7 +36,7 @@
     --radius-pill: 9999px;
     --shadow-float: 0 24px 48px rgba(0, 0, 0, 0.5);
 
-    /* Hero-only text shadow — never used outside a hero. */
+    /* Hero-only text shadow - never used outside a hero. */
     --hero-text-shadow: 0 4px 20px rgba(0, 0, 0, 0.55), 0 1px 4px rgba(0, 0, 0, 0.35);
 }
 
@@ -57,8 +57,8 @@
     display: inline-block;
     width: 16px;
     height: 16px;
-    border: 2px solid rgba(7, 9, 17, 0.3);
-    border-top-color: #070911;
+    border: 2px solid rgba(5, 7, 10, 0.3);
+    border-top-color: #05070A;
     border-radius: 50%;
     animation: btnSpin 0.7s linear infinite;
 }
@@ -87,6 +87,60 @@ body {
     line-height: 1.7;
     overflow-x: clip;
     font-weight: 400;
+    position: relative;
+}
+
+/* System UI Overrides */
+::selection {
+    background-color: var(--color-primary);
+    color: #0a0c14;
+}
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #05070a;
+}
+::-webkit-scrollbar-thumb {
+    background: #151a28;
+    border-radius: 4px;
+    border: 2px solid #05070a;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+}
+
+/* Ambient Candlelight Glow - fixes the 'flat void' problem */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background: 
+        radial-gradient(circle at 15% 20%, rgba(240, 139, 67, 0.035) 0%, rgba(240, 139, 67, 0) 50%),
+        radial-gradient(circle at 85% 80%, rgba(14, 20, 34, 0.25) 0%, rgba(14, 20, 34, 0) 50%);
+}
+
+/* Film Grain Texture (Atmosphere) */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+
+/* Global Typography Depth (High Readability) */
+h1, h2, h3, h4, h5, h6 {
+    text-shadow: 0 4px 16px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.9);
+}
+p, span, li, a {
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
 
 
@@ -114,7 +168,8 @@ body {
 }
 .btn-primary {
     background-color: var(--color-primary);
-    color: #0a0c14;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
     border: 1px solid var(--color-primary);
     box-shadow: 0 8px 22px rgba(240, 139, 67, 0.32);
     font-weight: 700;
@@ -124,9 +179,14 @@ body {
     border-color: #ffab5e;
     transform: translateY(-2px);
     box-shadow: 0 18px 38px rgba(240, 139, 67, 0.5);
-    color: #0a0c14;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
-/* Outlined cream button — high contrast on any dark or warm surface, and it
+.btn-primary:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow: 0 4px 12px rgba(240, 139, 67, 0.32);
+}
+/* Outlined cream button - high contrast on any dark or warm surface, and it
    inverts to a solid cream fill on hover so the label never loses legibility.
    Deliberately not orange, to avoid orange-on-orange against warm sections. */
 .btn-secondary {
@@ -140,6 +200,10 @@ body {
     border-color: var(--color-text-primary);
     transform: translateY(-2px);
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
+}
+.btn-secondary:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 /* Hero Section */
@@ -156,17 +220,17 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(7, 9, 17, 0.55) 0%, rgba(7, 9, 17, 0.65) 100%);
+    background: linear-gradient(135deg, rgba(5, 7, 10, 0.55) 0%, rgba(5, 7, 10, 0.65) 100%);
     z-index: 1;
 }
 
 /* Cinematic hero lighting: a vignette that darkens the edges and a soft
    warm directional glow, so the copy reads as the lit focal point over
-   video/photo — editorial-photography lighting, not a flat scrim. Hero-only. */
-/* Cinematic hero lighting — a single layered composition that darkens the
+   video/photo - editorial-photography lighting, not a flat scrim. Hero-only. */
+/* Cinematic hero lighting - a single layered composition that darkens the
    frame edges, keeps the top readable under the nav, pulls the sides in, and
    lifts a warm key light behind the headline so the eye lands on the type.
-   This is the HOMEPAGE HERO's signature treatment only — do not reuse it on
+   This is the HOMEPAGE HERO's signature treatment only - do not reuse it on
    other media (see the brief: hero lighting is unique). */
 .hero-cinematic-light {
     position: absolute;
@@ -174,18 +238,19 @@ body {
     z-index: 1;
     pointer-events: none;
     background:
-        radial-gradient(ellipse 52% 46% at 50% 44%, rgba(255, 193, 133, 0.16) 0%, rgba(255, 193, 133, 0) 62%),
-        linear-gradient(to bottom, rgba(5, 7, 15, 0.72) 0%, rgba(5, 7, 15, 0) 24%),
-        linear-gradient(to top, rgba(5, 7, 15, 0.96) 0%, rgba(5, 7, 15, 0) 42%),
-        linear-gradient(to right, rgba(5, 7, 15, 0.62) 0%, rgba(5, 7, 15, 0) 28%),
-        linear-gradient(to left, rgba(5, 7, 15, 0.62) 0%, rgba(5, 7, 15, 0) 28%),
-        radial-gradient(ellipse 78% 82% at 50% 50%, rgba(5, 7, 15, 0) 42%, rgba(5, 7, 15, 0.72) 100%);
+        radial-gradient(ellipse 52% 46% at 50% 44%, rgba(255, 193, 133, 0.22) 0%, rgba(255, 193, 133, 0) 62%),
+        linear-gradient(to bottom, rgba(5, 7, 10, 0.72) 0%, rgba(5, 7, 10, 0) 24%),
+        linear-gradient(to top, rgba(5, 7, 10, 0.96) 0%, rgba(5, 7, 10, 0) 42%),
+        linear-gradient(to right, rgba(5, 7, 10, 0.62) 0%, rgba(5, 7, 10, 0) 28%),
+        linear-gradient(to left, rgba(5, 7, 10, 0.62) 0%, rgba(5, 7, 10, 0) 28%),
+        radial-gradient(circle at 100% 0%, rgba(5, 7, 10, 0.8) 0%, rgba(5, 7, 10, 0) 35%),
+        radial-gradient(circle at 0% 100%, rgba(5, 7, 10, 0.8) 0%, rgba(5, 7, 10, 0) 35%);
 }
 .hero-text-shadow {
     text-shadow: var(--hero-text-shadow);
 }
 
-/* Subtle cinematic drift on the homepage hero footage — barely perceptible. */
+/* Subtle cinematic drift on the homepage hero footage - barely perceptible. */
 @keyframes heroKenBurns {
     0% { transform: scale(1); }
     100% { transform: scale(1.08); }
@@ -198,10 +263,10 @@ body {
 }
 
 /*
- * The Ignition — the opening ritual (homepage, first visit per session only).
+ * The Ignition - the opening ritual (homepage, first visit per session only).
  * A single ember catches at the flagship's mark and blooms into the room.
  * Entirely gated behind [data-ignition="igniting"], which app/layout.tsx's
- * inline head script only ever sets when JS confirms reduced-motion is off —
+ * inline head script only ever sets when JS confirms reduced-motion is off -
  * so nothing here needs its own reduced-motion guard.
  */
 .ignition-veil {
@@ -214,50 +279,50 @@ body {
 }
 html[data-ignition="igniting"] .ignition-veil {
     display: block;
-    animation: ignitionVeilRecede 1.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: ignitionVeilRecede 1.0s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
-.ignition-ember {
+.ignition-logo-container {
     position: absolute;
-    top: 62px; /* the header logo's resting position */
+    top: 50%;
     left: 50%;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--color-primary) 0%, rgba(240, 139, 67, 0.55) 35%, rgba(240, 139, 67, 0) 72%);
+    transform: translate(-50%, -50%);
     opacity: 0;
-    transform: translate(-50%, -50%) scale(1);
-    will-change: transform, opacity;
+    will-change: opacity;
 }
-html[data-ignition="igniting"] .ignition-ember {
-    animation:
-        ignitionCatch 0.55s ease-out 0.15s forwards,
-        ignitionBloom 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.65s forwards;
+.ignition-logo-wipe {
+    filter: drop-shadow(0 0 24px rgba(240, 139, 67, 0.5)) brightness(1.2) sepia(1) hue-rotate(345deg) saturate(3);
 }
-@keyframes ignitionCatch {
-    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
-    55%  { opacity: 1; transform: translate(-50%, -50%) scale(1.7); }
-    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+html[data-ignition="igniting"] .ignition-logo-container {
+    animation: ignitionLogoFade 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
 }
-@keyframes ignitionBloom {
-    0%   { transform: translate(-50%, -50%) scale(1); }
-    100% { transform: translate(-50%, -50%) scale(480); }
+html[data-ignition="igniting"] .ignition-logo-wipe {
+    animation: ignitionWipe 0.5s cubic-bezier(0.7, 0, 0.3, 1) 0.1s forwards;
+}
+
+@keyframes ignitionLogoFade {
+    0%, 60% { opacity: 1; }
+    100%    { opacity: 0; }
+}
+@keyframes ignitionWipe {
+    0%   { clip-path: inset(0 100% 0 0); }
+    100% { clip-path: inset(0 0 0 0); }
 }
 @keyframes ignitionVeilRecede {
-    0%, 34%  { opacity: 1; }
+    0%, 50%  { opacity: 1; }
     100%     { opacity: 0; visibility: hidden; }
 }
 
-/* Hero copy arrives with the light, not before it. Fully visible by default —
+/* Hero copy arrives with the light, not before it. Fully visible by default -
    the staggered entrance only happens during the ignition sequence itself. */
 html[data-ignition="igniting"] .ignition-reveal {
     opacity: 0;
     transform: translateY(14px);
-    animation: ignitionRevealIn 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: ignitionRevealIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
-html[data-ignition="igniting"] .ignition-reveal-1 { animation-delay: 1.05s; }
-html[data-ignition="igniting"] .ignition-reveal-2 { animation-delay: 1.22s; }
-html[data-ignition="igniting"] .ignition-reveal-3 { animation-delay: 1.4s; }
-html[data-ignition="igniting"] .ignition-reveal-4 { animation-delay: 1.56s; }
+html[data-ignition="igniting"] .ignition-reveal-1 { animation-delay: 0.4s; }
+html[data-ignition="igniting"] .ignition-reveal-2 { animation-delay: 0.5s; }
+html[data-ignition="igniting"] .ignition-reveal-3 { animation-delay: 0.6s; }
+html[data-ignition="igniting"] .ignition-reveal-4 { animation-delay: 0.7s; }
 @keyframes ignitionRevealIn {
     to { opacity: 1; transform: translateY(0); }
 }
@@ -271,7 +336,7 @@ html[data-ignition="igniting"] .ignition-reveal-4 { animation-delay: 1.56s; }
     margin-bottom: var(--space-component);
     letter-spacing: -0.04em;
     /* Balance multi-line headings so a lone word never dangles on its own
-       line — every display heading reads as an intentionally composed block. */
+       line - every display heading reads as an intentionally composed block. */
     text-wrap: balance;
 }
 .body-large {
@@ -287,9 +352,9 @@ a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 4px;
-    border-radius: 2px;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(240, 139, 67, 0.4), 0 0 12px rgba(240, 139, 67, 0.8);
+    border-radius: 4px;
 }
 
 /* Typography Classes */
@@ -353,7 +418,7 @@ textarea:focus-visible {
         transform: translateY(0);
     }
 }
-/* Scroll cue: a small ember drifting upward and fading, looping — carries
+/* Scroll cue: a small ember drifting upward and fading, looping - carries
    the fire motif established by the ignition sequence into ordinary use. */
 .ember-drift-track {
     position: relative;
@@ -436,7 +501,7 @@ select.premium-input {
     padding-right: 24px;
 }
 
-/* Menu hero — a single hero dish under a warm key light. The glow is the
+/* Menu hero - a single hero dish under a warm key light. The glow is the
    atmosphere; the dish rests (no frame). Immersive through scale + light. */
 .menu-hero {
     position: relative;
@@ -454,7 +519,7 @@ select.premium-input {
     pointer-events: none;
     background:
         radial-gradient(ellipse 50% 60% at 68% 46%, rgba(240, 139, 67, 0.20) 0%, rgba(240, 139, 67, 0) 60%),
-        radial-gradient(ellipse 90% 90% at 50% 50%, rgba(5, 7, 15, 0) 44%, rgba(5, 7, 15, 0.72) 100%);
+        radial-gradient(ellipse 90% 90% at 50% 50%, rgba(8, 12, 20, 0) 44%, rgba(8, 12, 20, 0.72) 100%);
 }
 .menu-hero-inner {
     position: relative;
@@ -475,7 +540,7 @@ select.premium-input {
     font-size: clamp(2.75rem, 5.5vw, 4.75rem);
     letter-spacing: -0.03em;
 }
-/* Layered dish cluster — one hero plate with two smaller satellites at
+/* Layered dish cluster - one hero plate with two smaller satellites at
    different scales, overlapping into an asymmetric, appetite-first collage
    rather than a single centred image. */
 .menu-hero-stage {
@@ -490,7 +555,7 @@ select.premium-input {
     margin-left: auto;
     aspect-ratio: 1 / 1;
 }
-/* A soft warm environment the dishes float within — reads as premium editorial
+/* A soft warm environment the dishes float within - reads as premium editorial
    light, not a flat backdrop. Sits behind every plate. */
 .menu-hero-cluster::before {
     content: "";
@@ -508,7 +573,7 @@ select.premium-input {
 .menu-hero-cluster .mh-dish--sat-a { width: 40%; left: 0%; bottom: 5%; z-index: 3; }
 .menu-hero-cluster .mh-dish--sat-b { width: 31%; top: 0%; left: 15%; z-index: 1; }
 /* Depth: the back plate recedes (dimmer, cooler, softer), the front plate
-   reads crisp and near — so the cluster occupies real space rather than
+   reads crisp and near - so the cluster occupies real space rather than
    three cut-outs on one plane. */
 .menu-hero-cluster .mh-dish--sat-b .dish-img {
     filter:
@@ -551,10 +616,10 @@ select.premium-input {
     scroll-margin-top: 160px; /* Offset for sticky header + nav */
 }
 
-/* Phone-only contextual section rail — a Google-Docs-style document outline.
+/* Phone-only contextual section rail - a Google-Docs-style document outline.
    Hidden on desktop (the horizontal pill nav owns that); on phones it's a slim
    fixed rail of dashes you drag a finger along to magnify sections, releasing
-   (or tapping) to jump. Never a panel/drawer — content stays visible. */
+   (or tapping) to jump. Never a panel/drawer - content stays visible. */
 /* phone-only section rail */
 .menu-rail { display: none; }
 @media (max-width: 768px) {
@@ -598,7 +663,7 @@ select.premium-input {
         line-height: 1.05;
         white-space: nowrap;
         transform-origin: right center;
-        text-shadow: 0 2px 12px rgba(7, 9, 17, 0.96), 0 0 4px rgba(7, 9, 17, 0.98);
+        text-shadow: 0 2px 12px rgba(5, 7, 10, 0.96), 0 0 4px rgba(5, 7, 10, 0.98);
         transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
                     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
                     color 0.3s ease;
@@ -613,7 +678,7 @@ select.premium-input {
         flex-shrink: 0;
     }
 
-    /* Backdrop strip — a dark scrim behind the rail area. At rest it's a subtle
+    /* Backdrop strip - a dark scrim behind the rail area. At rest it's a subtle
        edge gradient so white dashes don't vanish against white menu text. On
        touch it darkens and widens so rail labels sit on a solid readable band. */
     .menu-rail-backdrop {
@@ -624,15 +689,15 @@ select.premium-input {
         width: 60px;
         z-index: 9998;
         pointer-events: none;
-        background: linear-gradient(to left, rgba(7,9,17,0.45), transparent);
+        background: linear-gradient(to left, rgba(18,16,24,0.45), transparent);
         transition: width 0.3s ease, background 0.3s ease;
     }
     .menu-rail-backdrop--active {
         width: 130px;
-        background: linear-gradient(to left, rgba(7,9,17,0.88), rgba(7,9,17,0.38) 60%, transparent);
+        background: linear-gradient(to left, rgba(18,16,24,0.88), rgba(18,16,24,0.38) 60%, transparent);
     }
 
-    /* Active rail — labels get a solid pill behind them so they're always
+    /* Active rail - labels get a solid pill behind them so they're always
        readable, no matter what menu content sits behind the rail. */
     .menu-rail--active .menu-rail-name {
         background: var(--color-primary);
@@ -671,7 +736,7 @@ select.premium-input {
 }
 
 
-/* Food photography — the dish IS the hero. No frame, no box: the plated
+/* Food photography - the dish IS the hero. No frame, no box: the plated
    cutout rests on the page, lit from above. A silhouette-following drop
    shadow reads as an overhead key light; a separate soft contact shadow
    grounds the plate on the surface. On hover the dish lifts a touch and its
@@ -680,7 +745,7 @@ select.premium-input {
     position: relative;
     width: 100%;
 }
-/* Overhead key light — a soft warm pool falling across the top of the plate,
+/* Overhead key light - a soft warm pool falling across the top of the plate,
    as if lit from the upper side. The element extends above the dish and is
    clipped by overflow:hidden, so the top edge dissolves instead of cutting
    in with a straight line. */
@@ -707,7 +772,7 @@ select.premium-input {
     transition: opacity 0.5s ease;
 }
 .dish:hover::before { opacity: 1; }
-/* Contact shadow: tight under the plate, dark and short — reads as cast
+/* Contact shadow: tight under the plate, dark and short - reads as cast
    directly by the overhead key light. A concentrated dark core with a
    brief penumbra so the dish floats just above the surface. */
 .dish::after {
@@ -729,7 +794,7 @@ select.premium-input {
     z-index: 1;
     object-fit: contain;
     /* Directional light from the upper side: a fine near-white top highlight,
-       layered over a soft mid shadow and a deeper ambient shadow — premium
+       layered over a soft mid shadow and a deeper ambient shadow - premium
        depth without any artificial glow. */
     filter:
         drop-shadow(0 1px 0 rgba(255, 246, 232, 0.25))
@@ -763,7 +828,7 @@ select.premium-input {
     .dish--angled .dish-img { transform: none; }
 }
 
-/* Floating presentation — for dishes suspended in space (the menu hero), not
+/* Floating presentation - for dishes suspended in space (the menu hero), not
    resting on a surface. The tight contact shadow becomes a soft shadow cast
    well below to imply suspension, and a wider ambient glow lifts the plate off
    the dark ground. Light stays consistent: highlight on top, shadow beneath. */
@@ -789,7 +854,7 @@ select.premium-input {
         drop-shadow(0 10px 16px rgba(0, 0, 0, 0.34));
 }
 
-/* Signature spreads — an editorial two-up, deliberately off-centre. The plate
+/* Signature spreads - an editorial two-up, deliberately off-centre. The plate
    runs large toward one edge; the copy sits in the opposite column with
    generous negative space and a ghosted index numeral. Alternating sides
    create a reading rhythm rather than two mirrored, centred rows. */
@@ -865,10 +930,10 @@ select.premium-input {
     flex-grow: 1;
 }
 
-/* CHAPTER III — Heritage: an art-directed mosaic, not an image-plus-paragraph
+/* CHAPTER III - Heritage: an art-directed mosaic, not an image-plus-paragraph
    band. A large feature room anchors the composition; supporting rooms at
    different scales stagger around it; the signature line sits in its own
-   negative space above. Stays dark — part of the Editorial Nocturne. */
+   negative space above. Stays dark - part of the Editorial Nocturne. */
 .heritage {
     position: relative;
     background-color: var(--color-surface-base);
@@ -918,7 +983,7 @@ select.premium-input {
 
 /* The mosaic: a 3-column editorial grid. One tall feature, one portrait
    supporting crop, one wide crop, and a text block set into the negative
-   space — each a different scale, so the wall reads as curated, not tiled. */
+   space - each a different scale, so the wall reads as curated, not tiled. */
 .heritage-mosaic {
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr;
@@ -930,52 +995,59 @@ select.premium-input {
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-float);
 }
-.hm img { object-fit: cover; }
+.hm img { 
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hm:hover img {
+    transform: scale(1.04);
+}
 .hm--feature { grid-column: 1; grid-row: 1 / 3; min-height: 460px; }
 .hm--tall    { grid-column: 2; grid-row: 1; min-height: 300px; }
 .hm--wide    { grid-column: 3; grid-row: 1; min-height: 300px; }
 /* The caption sits as a horizontal band beneath the two supporting rooms,
-   spanning both right columns — text and its link on one line, not a cramped
-   vertical strip. */
+   spanning both right columns - text and its link on one line, not a cramped
+   paragraph. */
 .hm--note {
     grid-column: 2 / 4;
     grid-row: 2;
-    box-shadow: none;
-    border-radius: 0;
-    overflow: visible;
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
-    gap: clamp(20px, 3vw, 40px);
-    padding: 6px 2px;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 16px;
 }
 .hm--note p {
-    flex: 1;
     color: var(--color-text-secondary);
-    font-size: 1.02rem;
-    line-height: 1.75;
-    margin: 0;
+    line-height: 1.8;
+    max-width: 55ch;
+    font-size: 1.05rem;
 }
-.hm--note .btn { flex-shrink: 0; }
+
+/* Interior caption for images */
+.hm-cap {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    color: #fdfbf7;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    z-index: 2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
 .hm-scrim {
     position: absolute;
     inset: 0;
-    background: linear-gradient(160deg, rgba(5, 7, 15, 0.04) 0%, rgba(5, 7, 15, 0.55) 100%);
+    background: linear-gradient(160deg, rgba(8, 12, 20, 0.04) 0%, rgba(8, 12, 20, 0.55) 100%);
     z-index: 1;
     pointer-events: none;
+    transition: background 0.6s ease;
 }
-.hm-cap {
-    position: absolute;
-    left: 20px;
-    bottom: 16px;
-    z-index: 2;
-    color: #fdfbf7;
-    font-family: var(--font-sans);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+.hm:hover .hm-scrim {
+    background: linear-gradient(160deg, rgba(8, 12, 20, 0.0) 0%, rgba(8, 12, 20, 0.35) 100%);
 }
 @media (max-width: 1024px) {
     .heritage-mosaic { grid-template-columns: 1fr 1fr; }
@@ -994,7 +1066,7 @@ select.premium-input {
     .hm--note { flex-direction: column; align-items: flex-start; gap: 20px; }
 }
 
-/* Gift card stack hover — replaces inline JS onMouseEnter/Leave */
+/* Gift card stack hover - replaces inline JS onMouseEnter/Leave */
 .gift-card-stack {
     transition: transform 0.3s ease;
 }
@@ -1023,7 +1095,7 @@ select.premium-input {
 }
 
 /* The wok toss: for the two signature-dish images only. A brief arc and
-   settle — a touch of overshoot on landing — rather than a plain fade-up,
+   settle - a touch of overshoot on landing - rather than a plain fade-up,
    echoing "the rhythm of the wok" language already on this page. */
 .reveal-toss {
     opacity: 0;
@@ -1063,7 +1135,7 @@ select.premium-input {
    Background motif system
    One visual language, many marks. Each major section can carry its own
    low-opacity Thai motif (lotus, lattice) as a near-invisible black-on-black
-   texture — discovered, not noticed. Purely decorative: always behind
+   texture - discovered, not noticed. Purely decorative: always behind
    content, never interactive.
    ============================================================ */
 .motif {
@@ -1075,12 +1147,12 @@ select.premium-input {
     background-size: contain;
     opacity: 0.05;
 }
-/* A single lotus, drifted to a corner — for feature sections. */
+/* A single lotus, drifted to a corner - for feature sections. */
 .motif--lotus {
     background-image: url('/assets/Background-20260709T183540Z-2-001/Background/Lotus/Lotus Crop Transparent.webp');
     filter: grayscale(1) brightness(1.6);
 }
-/* A quiet repeating lotus — the actual brand motif (Lotus Single White),
+/* A quiet repeating lotus - the actual brand motif (Lotus Single White),
    tiled at very low opacity for an atmospheric field rather than a loud
    pattern. This is the Khao San visual language, not abstract geometry. */
 .motif--lotus-field {
@@ -1099,24 +1171,25 @@ select.premium-input {
    Designed section backgrounds
    Real brand artwork (the deep-navy Thai lattice + lotus line-work) behind a
    dark scrim, so a section reads as near-black with the pattern quietly
-   emerging — richer than a flat fill, still cinematic and legible. Used to
+   emerging - richer than a flat fill, still cinematic and legible. Used to
    replace solid-colour sections; varied per section so nothing repeats.
    ============================================================ */
 .bg-lattice {
     background-color: var(--color-surface-base);
     background-image:
-        linear-gradient(rgba(7, 9, 17, 0.74), rgba(7, 9, 17, 0.83)),
+        linear-gradient(rgba(8, 12, 20, 0.52), rgba(8, 12, 20, 0.65)),
         url('/assets/Background-20260709T183540Z-2-001/Background/Lotus/Lotus BG.webp');
     background-size: cover, cover;
     background-position: center, center;
     background-repeat: no-repeat, no-repeat;
 }
-/* Corner-florals variant — lotus blooms anchored in the corners over the
+
+/* Corner-florals variant - lotus blooms anchored in the corners over the
    lattice, for hero-scale sections where the centre must stay clear for copy. */
 .bg-lotus-corners {
     background-color: var(--color-surface-base);
     background-image:
-        linear-gradient(rgba(7, 9, 17, 0.72), rgba(7, 9, 17, 0.86)),
+        linear-gradient(rgba(8, 12, 20, 0.55), rgba(8, 12, 20, 0.70)),
         url('/assets/Background-20260709T183540Z-2-001/Background/Landing Page Section/Lotus background.webp');
     background-size: cover, cover;
     background-position: center, center;
@@ -1127,14 +1200,15 @@ select.premium-input {
 .bg-lattice--quiet {
     background-color: var(--color-surface-base);
     background-image:
-        linear-gradient(rgba(7, 9, 17, 0.85), rgba(7, 9, 17, 0.9)),
+        linear-gradient(rgba(8, 12, 20, 0.68), rgba(8, 12, 20, 0.75)),
         url('/assets/Background-20260709T183540Z-2-001/Background/Lotus/Lotus BG.webp');
     background-size: cover, cover;
     background-position: center, center;
     background-repeat: no-repeat, no-repeat;
 }
 
-/* Gift card hero — same split-grid logic as the menu hero: contained copy on
+
+/* Gift card hero - same split-grid logic as the menu hero: contained copy on
    one side, the card composition on the other, one padding rhythm, collapsing
    to a single column with the visual on top on narrow screens. */
 .giftcard-hero-inner {
@@ -1198,7 +1272,7 @@ select.premium-input {
     }
 }
 
-/* Homepage gift card section — 3-child grid, same clean pattern as giftcard hero */
+/* Homepage gift card section - 3-child grid, same clean pattern as giftcard hero */
 .landing-gift-grid {
     display: grid;
     grid-template-columns: 0.72fr 1.28fr;
@@ -1247,7 +1321,7 @@ select.premium-input {
 /* ============================================================
    Feathered media frames
    Video/media that dissolves into the page instead of sitting as a hard
-   outlined rectangle — a soft alpha mask fades all four edges. Pair with a
+   outlined rectangle - a soft alpha mask fades all four edges. Pair with a
    diffuse ambient shadow (.media-soft) for weight without a visible border.
    ============================================================ */
 .media-feather {
@@ -1265,7 +1339,7 @@ select.premium-input {
 }
 
 /* ============================================================
-   Section spacing scale — one rhythm for every section's vertical padding,
+   Section spacing scale - one rhythm for every section's vertical padding,
    replacing ad-hoc px values scattered across pages. Built on --space-macro
    so it already flexes down at the tablet/mobile breakpoints below.
    ============================================================ */
@@ -1274,7 +1348,7 @@ select.premium-input {
 .section-pad-b { padding-bottom: var(--space-macro); }
 
 /* ============================================================
-   Image blend treatment — same intersecting linear-gradient mask
+   Image blend treatment - same intersecting linear-gradient mask
    as the Chapter II video (.media-feather), with rounded corners.
    The fade zone is opened wider for still photographs so the
    dissolve into the nocturnal background reads clearly at every
@@ -1294,7 +1368,7 @@ select.premium-input {
 }
 
 /* ============================================================
-   Section dissolve — hard horizontal cuts between sections
+   Section dissolve - hard horizontal cuts between sections
    become soft editorial transitions. Each section's top edge
    fades in from noir and its bottom edge dissolves back,
    matching the .media-feather / .img-feather dissolve language.
@@ -1319,19 +1393,19 @@ select.premium-input {
 }
 
 /* ============================================================
-   Footer — compact, dark, gradient-free. A restrained sign-off: a small
+   Footer - compact, dark, gradient-free. A restrained sign-off: a small
    wordmark, a line of intent, structured nav, and a thin rule. No glow, no
-   giant watermark — deliberately contained in height.
+   giant watermark - deliberately contained in height.
    ============================================================ */
 .site-footer {
     position: relative;
     overflow: hidden;
-    background: var(--color-surface-elevated);
-    border-top: 1px solid var(--color-border);
+    background: #0A0401;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
     padding: clamp(44px, 5vw, 68px) 0 22px;
 }
 /* Faint lotus/lattice texture so the footer reads as a designed close, not a
-   flat dull band. No gradient — a solid low-opacity image wash. */
+   flat dull band. No gradient - a solid low-opacity image wash. */
 .site-footer::before {
     content: "";
     position: absolute;
@@ -1447,8 +1521,8 @@ select.premium-input {
 /* Tablet (max-width: 1024px) */
 @media (max-width: 1024px) {
     :root {
-        --space-macro: 80px;
-        --space-layout: 48px;
+        --space-macro: 72px;
+        --space-layout: 40px;
     }
     .container {
         grid-template-columns: repeat(8, 1fr);
@@ -1460,8 +1534,8 @@ select.premium-input {
 /* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
     :root {
-        --space-macro: 64px;
-        --space-layout: 32px;
+        --space-macro: 48px;
+        --space-layout: 24px;
     }
     .container {
         grid-template-columns: repeat(4, 1fr);

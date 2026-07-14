@@ -172,7 +172,7 @@ const MENU_DATA: MenuCategory[] = [
             { number: 60, title: 'Coconut Ice Cream Over Sticky Rice', imageSrc: '/assets/Menu/KS Menu Webp/L. Desserts/Coconut Ice Cream Over Sticky Rice.webp', price: '205', description: 'Creamy coconut ice cream, sprinkled with toasted peanuts & served on Thai sticky rice.' },
             { number: 61, title: 'Pina Colada Sorbet', imageSrc: '/assets/Menu/KS Menu Webp/L. Desserts/Pina Colada Sorbet.webp', price: '215', badges: ['new'], description: 'Pineapple and coconut based fusion sorbet served with fruit chunks.' },
             { number: 62, title: 'Tapioca Mango Pudding', imageSrc: '/assets/Menu/KS Menu Webp/L. Desserts/Tapioca Mango Pudding.webp', price: '315', description: 'Coconut infused mango purée served with tapioca pearls in a jar.' },
-            { number: 63, title: 'Mango Sticky Rice', imageSrc: '/assets/Menu/KS Menu Webp/L. Desserts/Mango Sticky Rice.webp', price: '385', badges: ['featured'], description: 'Seasonal mango served with creamy sticky rice infused in coconut milk.', addOnNote: 'Add coconut ice cream — 465 BDT total.' },
+            { number: 63, title: 'Mango Sticky Rice', imageSrc: '/assets/Menu/KS Menu Webp/L. Desserts/Mango Sticky Rice.webp', price: '385', badges: ['featured'], description: 'Seasonal mango served with creamy sticky rice infused in coconut milk.', addOnNote: 'Add coconut ice cream - 465 BDT total.' },
         ]
     },
     {
@@ -326,9 +326,8 @@ export default function Menu() {
 
     return (
         <>
-        {/*  Menu Hero — one dramatic dish under a warm spotlight, immersive  */}
+        {/*  Menu Hero - one dramatic dish under a warm spotlight, immersive  */}
         <section className="menu-hero bg-lattice">
-            <SectionBlend />
             <div className="menu-hero-glow" aria-hidden="true"></div>
             <div className="menu-hero-inner">
                 <div className="reveal-hidden menu-hero-copy">
@@ -337,7 +336,7 @@ export default function Menu() {
                         A journey<br />through fire.
                     </h1>
                     <p className="body-large" style={{ color: 'var(--color-text-secondary)', fontSize: '1.2rem', lineHeight: 1.6, maxWidth: '44ch', marginBottom: '20px' }}>
-                        From fiery street-stall classics to whole-fish showpieces — every plate carries the char, spice and balance of Bangkok.
+                        From fiery street-stall classics to whole-fish showpieces - every plate carries the char, spice and balance of Bangkok.
                     </p>
                     <p style={{ color: 'var(--color-primary)', fontWeight: 600, letterSpacing: '0.08em', fontSize: '0.9rem', marginBottom: '40px' }}>
                         75 dishes · 14 chapters
@@ -363,6 +362,7 @@ export default function Menu() {
             <div style={{ position: 'absolute', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 3, textAlign: 'center', opacity: 0.6 }}>
                 <div className="ember-drift-track"><div className="ember-drift-dot"></div></div>
             </div>
+            <SectionBlend />
         </section>
 
         {/*  Category Navigation  */}
@@ -463,10 +463,10 @@ export default function Menu() {
                         right: 50% !important;
                         margin-left: -50vw !important;
                         margin-right: -50vw !important;
-                        background-color: rgba(7, 9, 17, 0.88) !important;
+                        background-color: rgba(5, 7, 10, 0.88) !important;
                         backdrop-filter: blur(12px) !important;
                         -webkit-backdrop-filter: blur(12px) !important;
-                        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
                     }
                     .menu-nav-section > div {
                         justify-content: flex-start !important;
@@ -499,14 +499,14 @@ export default function Menu() {
             `}} />
         </section>
 
-        {/* Phone-only contextual section rail — a document-outline navigator.
+        {/* Phone-only contextual section rail - a document-outline navigator.
             Drag a finger along it and sections magnify under the touch; release
             or tap to jump. The active section stays marked at all times. Hidden
             on desktop, where the horizontal pill nav takes over. Portalled to
             <body> so its position:fixed escapes the transformed page wrapper. */}
         {railVisible && createPortal(
         <>
-        {/* Backdrop strip — darkens the rail area on touch so white labels
+        {/* Backdrop strip - darkens the rail area on touch so white labels
             never collide with white menu content behind them. */}
         <div
             aria-hidden="true"
@@ -571,8 +571,8 @@ export default function Menu() {
         </>,
         document.body)}
 
-        {/* Menu Sections — continuous scroll */}
-        <div className="menu-sections" style={{backgroundColor: 'var(--color-surface-base)', paddingTop: 'clamp(56px, 7vw, 104px)', paddingBottom: '80px'}}>
+        {/* Menu Sections - continuous scroll */}
+        <div className="menu-sections bg-lattice" style={{backgroundColor: 'var(--color-surface-base)', paddingTop: 'clamp(56px, 7vw, 104px)', paddingBottom: '80px'}}>
             {MENU_DATA.map((category) => (
                 <section key={category.id} id={category.id} className="menu-category" style={{marginBottom: 'var(--space-macro)'}}>
                     <div className="container">
@@ -616,7 +616,7 @@ export default function Menu() {
             ))}
         </div>
 
-        {/* Menu terms & legend — sourced from the printed menu's closing page */}
+        {/* Menu terms & legend - sourced from the printed menu's closing page */}
         <section style={{ backgroundColor: 'var(--color-surface-elevated)', padding: '56px 0', borderTop: '1px solid rgba(255,255,255,0.05)', position: 'relative' }}>
             <SectionBlend />
             <div className="container">

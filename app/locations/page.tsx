@@ -26,6 +26,7 @@ export default function Locations() {
                         hours={["Sat–Thu: 12:00 PM – 11:00 PM", "Friday: 2:00 PM – 11:00 PM"]}
                         imageSrc="/assets/Location_Image_1_1/Gulshan_Outlet_2.webp"
                         mapQuery="Level 1, Progress Tower, House 1, Road 23, Gulshan 1, Dhaka"
+                        blendTop={true}
                     />
 
                     <LocationCard
@@ -49,6 +50,7 @@ export default function Locations() {
                         hours={["Sat–Thu: 12:00 PM – 11:00 PM", "Friday: 2:00 PM – 11:00 PM"]}
                         imageSrc="/assets/Location_Image_1_1/Uttara_Outlet_3.webp"
                         mapQuery="House 30, Tropical Sormi Center, Sector 13, Garib-E-Newaz Ave, Uttara, Dhaka"
+                        blendBottom={true}
                     />
                     
                 </div>

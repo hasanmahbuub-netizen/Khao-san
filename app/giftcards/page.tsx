@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { MessageCircle, PenTool, Utensils } from 'lucide-react';
 import SectionOverlay from '@/components/ui/section-overlay';
 import SectionBlend from '@/components/ui/section-blend';
 
@@ -12,9 +13,9 @@ const waLink = (message: string) => `https://wa.me/${WHATSAPP_NUMBER}?text=${enc
 export default function GiftCardsPage() {
     // gift cards page
     return (
-        <main className="page-transition" style={{ backgroundColor: 'var(--color-surface-base)', minHeight: '100vh' }}>
+        <main className="page-transition" style={{ minHeight: '100vh' }}>
 
-            {/* Section 1: The Flagship Hero — same split-grid logic as the menu
+            {/* Section 1: The Flagship Hero - same split-grid logic as the menu
                 hero: contained copy on the left, the card composition on the
                 right, one padding rhythm, on a designed lotus-corners ground */}
              <section className="bg-lotus-corners" style={{ position: 'relative', overflow: 'hidden', minHeight: '92vh', display: 'flex', alignItems: 'center' }}>
@@ -22,7 +23,7 @@ export default function GiftCardsPage() {
                 <div aria-hidden="true" style={{ position: 'absolute', top: '50%', right: '8%', transform: 'translateY(-50%)', width: 'min(720px, 55vw)', height: '480px', background: 'radial-gradient(ellipse at center, rgba(240, 139, 67, 0.12) 0%, rgba(240, 139, 67, 0) 66%)', pointerEvents: 'none', zIndex: 0 }}></div>
 
                 <div className="giftcard-hero-inner">
-                    {/* Header — first grid child, on mobile order pushes it above cards */}
+                    {/* Header - first grid child, on mobile order pushes it above cards */}
                     <div className="reveal-hidden gift-hero-head">
                         <span className="overline" style={{ color: 'var(--color-primary)', letterSpacing: '4px', display: 'inline-flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
                             <span style={{ width: '32px', height: '1px', background: 'var(--color-primary)', display: 'inline-block' }}></span>
@@ -41,11 +42,11 @@ export default function GiftCardsPage() {
                         </h1>
                     </div>
 
-                    {/* Body text — desktop: column 1 row 2. Mobile: below cards. */}
+                    {/* Body text - desktop: column 1 row 2. Mobile: below cards. */}
                     <div className="reveal-hidden gift-hero-body">
 
                         <p style={{ color: 'rgba(253,251,247,0.82)', fontSize: '1.1rem', marginBottom: '32px', lineHeight: 1.7, maxWidth: '44ch' }}>
-                            The perfect present for special occasions — unlocks the full menu across all three outlets. Message us on WhatsApp to arrange yours.
+                            The perfect present for special occasions - unlocks the full menu across all three outlets. Message us on WhatsApp to arrange yours.
                         </p>
 
                         <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 40px 0', display: 'flex', flexDirection: 'column', gap: '14px', color: 'rgba(253,251,247,0.9)', fontSize: '1rem' }}>
@@ -160,8 +161,8 @@ export default function GiftCardsPage() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '48px' }}>
                         
                         <div className="reveal-hidden reveal-stagger" style={{ textAlign: 'center' }}>
-                            <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(240, 139, 67, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px auto', color: 'var(--color-primary)', fontSize: '24px' }}>
-                                💬
+                            <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(240, 139, 67, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px auto', color: 'var(--color-primary)' }}>
+                                <MessageCircle size={28} strokeWidth={1.5} />
                             </div>
                             <h4 style={{ fontSize: '1.25rem', marginBottom: '16px', color: 'var(--color-text-primary)' }}>Message to Order</h4>
                             <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
@@ -170,18 +171,18 @@ export default function GiftCardsPage() {
                         </div>
 
                         <div style={{ textAlign: 'center' }}>
-                            <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(240, 139, 67, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px auto', color: 'var(--color-primary)', fontSize: '24px' }}>
-                                ✍️
+                            <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(240, 139, 67, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px auto', color: 'var(--color-primary)' }}>
+                                <PenTool size={28} strokeWidth={1.5} />
                             </div>
                             <h4 style={{ fontSize: '1.25rem', marginBottom: '16px', color: 'var(--color-text-primary)' }}>Personal Touch</h4>
                             <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-                                Let us know the occasion and recipient&apos;s name — we&apos;ll personalise the card before it&apos;s delivered.
+                                Let us know the occasion and recipient&apos;s name - we&apos;ll personalise the card before it&apos;s delivered.
                             </p>
                         </div>
 
                         <div style={{ textAlign: 'center' }}>
-                            <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(240, 139, 67, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px auto', color: 'var(--color-primary)', fontSize: '24px' }}>
-                                🍽️
+                            <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(240, 139, 67, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px auto', color: 'var(--color-primary)' }}>
+                                <Utensils size={28} strokeWidth={1.5} />
                             </div>
                             <h4 style={{ fontSize: '1.25rem', marginBottom: '16px', color: 'var(--color-text-primary)' }}>Seamless Redemption</h4>
                             <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>

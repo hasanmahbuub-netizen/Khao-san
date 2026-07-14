@@ -9,7 +9,7 @@ export default function About() {
     const { openDrawer } = useReservation();
     return (
         <>
-        {/* Editorial hero — an atmospheric room, the narrative set into it */}
+        {/* Editorial hero - an atmospheric room, the narrative set into it */}
         <section style={{ position: 'relative', minHeight: '86vh', display: 'flex', alignItems: 'flex-end', overflow: 'hidden', backgroundColor: 'var(--color-surface-base)', paddingTop: '120px', paddingBottom: '80px' }}>
             <SectionBlend />
             <Image
@@ -21,15 +21,15 @@ export default function About() {
                 style={{ objectFit: 'cover', opacity: 0.55 }}
                 sizes="100vw"
             />
-            <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--color-surface-base) 4%, rgba(7,9,17,0.35) 48%, rgba(7,9,17,0.65) 100%)' }}></div>
-            <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(7,9,17,0.72) 0%, rgba(7,9,17,0) 58%)' }}></div>
+            <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--color-surface-base) 4%, rgba(5, 7, 10, 0.35) 48%, rgba(5, 7, 10, 0.65) 100%)' }}></div>
+            <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(5, 7, 10, 0.72) 0%, rgba(5, 7, 10, 0) 58%)' }}></div>
 
             <div className="container reveal-hidden" style={{ position: 'relative', zIndex: 2, maxWidth: '1000px' }}>
                 <span className="overline" style={{ color: 'var(--color-primary)', letterSpacing: '4px', display: 'block', marginBottom: '16px' }}>The Thai Way</span>
                 <h1 className="display-1" style={{ marginBottom: '24px', color: 'var(--color-text-primary)', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'clamp(2.5rem, 5.4vw, 4.75rem)', lineHeight: 1.05, letterSpacing: '-0.02em', maxWidth: '16ch' }}>
                     Bringing authentic Thai flavours to Dhaka.
                 </h1>
-                <p className="body-large" style={{ color: 'rgba(253,251,247,0.82)', maxWidth: '560px', fontSize: '1.2rem', lineHeight: 1.6, marginBottom: 0 }}>
+                <p className="body-large" style={{ color: '#CFCAC2', maxWidth: '560px', fontSize: '1.2rem', lineHeight: 1.7, marginBottom: 0 }}>
                     We believe true hospitality is an art form. Every dish, every interaction, and every shadow in our dining room is designed to transport you.
                 </p>
             </div>

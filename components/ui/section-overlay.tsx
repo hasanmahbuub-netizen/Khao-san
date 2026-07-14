@@ -35,7 +35,7 @@ export default function SectionOverlay({
                     left: 0, 
                     width: '100%', 
                     height: '100%', 
-                    backgroundColor: `rgba(7, 9, 17, ${overlayOpacity})`, 
+                    backgroundColor: `rgba(8, 12, 20, ${overlayOpacity})`, 
                     zIndex: 0
                 }}
             ></div>

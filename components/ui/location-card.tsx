@@ -14,6 +14,8 @@ export interface LocationCardProps {
     mapQuery: string;
     reverse?: boolean;
     className?: string;
+    blendTop?: boolean;
+    blendBottom?: boolean;
 }
 
 export default function LocationCard({
@@ -26,7 +28,9 @@ export default function LocationCard({
     imageAlt,
     mapQuery,
     reverse = false,
-    className = ""
+    className = "",
+    blendTop = false,
+    blendBottom = false
 }: LocationCardProps) {
     const { openDrawer } = useReservation();
     const whatsappNumber = phone.replace(/[^0-9]/g, '');
@@ -37,7 +41,11 @@ export default function LocationCard({
             <Image src={imageSrc} alt={imageAlt || name} fill style={{objectFit: 'cover', zIndex: 0}} sizes="100vw" />
             
             {/* Gradient Overlay for text contrast only */}
-            <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: reverse ? 'linear-gradient(to right, rgba(7,9,17,0.9) 0%, rgba(7,9,17,0.2) 60%, rgba(7,9,17,0) 100%)' : 'linear-gradient(to left, rgba(7,9,17,0.9) 0%, rgba(7,9,17,0.2) 60%, rgba(7,9,17,0) 100%)', zIndex: 1}}></div>
+            <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: reverse ? 'linear-gradient(to right, rgba(5, 7, 10, 0.98) 0%, rgba(5, 7, 10, 0.7) 45%, rgba(5, 7, 10, 0) 100%)' : 'linear-gradient(to left, rgba(5, 7, 10, 0.98) 0%, rgba(5, 7, 10, 0.7) 45%, rgba(5, 7, 10, 0) 100%)', zIndex: 1}}></div>
+            
+            {/* Top and Bottom Blends for seamless integration into the page */}
+            {blendTop && <div aria-hidden="true" style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '25vh', minHeight: '200px', background: 'linear-gradient(to bottom, rgba(5,7,10,1) 0%, rgba(5,7,10,0) 100%)', zIndex: 2}}></div>}
+            {blendBottom && <div aria-hidden="true" style={{position: 'absolute', bottom: 0, left: 0, width: '100%', height: '25vh', minHeight: '200px', background: 'linear-gradient(to top, rgba(5,7,10,1) 0%, rgba(5,7,10,0) 100%)', zIndex: 2}}></div>}
             
             {/* Typography Canvas */}
             <div className="reveal-hidden" style={{
@@ -48,13 +56,13 @@ export default function LocationCard({
                 padding: '0 8vw',
                 textAlign: reverse ? 'left' : 'right'
             }}>
-                <span className="overline" style={{color: 'var(--color-primary)', display: 'block', marginBottom: '24px', letterSpacing: '6px'}}>{type}</span>
-                <h2 className="display-2" style={{marginBottom: '32px', fontSize: 'clamp(3rem, 8vw, 7rem)', fontFamily: 'var(--font-display)', lineHeight: 0.9}}>{name}</h2>
-                <p className="body-large" style={{color: 'rgba(255,255,255,0.85)', marginBottom: '32px', lineHeight: 1.8, fontSize: '1.2rem', marginLeft: reverse ? '0' : 'auto', marginRight: reverse ? 'auto' : '0'}}>{address}</p>
+                <span className="overline hero-text-shadow" style={{color: 'var(--color-primary)', display: 'block', marginBottom: '24px', letterSpacing: '6px'}}>{type}</span>
+                <h2 className="display-2 hero-text-shadow" style={{marginBottom: '32px', fontSize: 'clamp(3rem, 8vw, 7rem)', fontFamily: 'var(--font-display)', lineHeight: 0.9}}>{name}</h2>
+                <p className="body-large hero-text-shadow" style={{color: 'rgba(255,255,255,0.9)', marginBottom: '32px', lineHeight: 1.8, fontSize: '1.2rem', marginLeft: reverse ? '0' : 'auto', marginRight: reverse ? 'auto' : '0'}}>{address}</p>
                 <div style={{display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '48px', alignItems: reverse ? 'flex-start' : 'flex-end'}}>
-                    <span style={{color: 'var(--color-text-primary)', fontWeight: 600, letterSpacing: '2px', fontSize: '1.1rem'}}>📞 {phone}</span>
+                    <span className="hero-text-shadow" style={{color: 'var(--color-text-primary)', fontWeight: 600, letterSpacing: '2px', fontSize: '1.1rem'}}>📞 {phone}</span>
                     {hours.map((line) => (
-                        <span key={line} style={{color: 'rgba(255,255,255,0.6)', fontSize: '0.95rem', textTransform: 'uppercase', letterSpacing: '1px'}}>{line}</span>
+                        <span key={line} className="hero-text-shadow" style={{color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem', textTransform: 'uppercase', letterSpacing: '1px'}}>{line}</span>
                     ))}
                 </div>
                 <div style={{display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: reverse ? 'flex-start' : 'flex-end'}}>

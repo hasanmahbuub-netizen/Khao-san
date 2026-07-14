@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { Flame, BookOpen, Camera, Sparkles } from 'lucide-react';
 
 export type MenuBadge = 'spicy' | 'special' | 'featured' | 'new';
 
@@ -19,11 +20,11 @@ export interface MenuCardProps {
     angled?: boolean;
 }
 
-const BADGE_META: Record<MenuBadge, { label: string; icon: string; color: string }> = {
-    spicy: { label: 'Spicy', icon: '🌶️', color: '#ff6b4d' },
-    special: { label: 'Special', icon: '📕', color: 'var(--color-primary)' },
-    featured: { label: 'Featured', icon: '📷', color: '#e8c874' },
-    new: { label: 'New', icon: '✨', color: '#5fc7b8' },
+const BADGE_META: Record<MenuBadge, { label: string; icon: React.ReactNode; color: string }> = {
+    spicy: { label: 'Spicy', icon: <Flame size={12} strokeWidth={3} />, color: '#ff6b4d' },
+    special: { label: 'Special', icon: <BookOpen size={12} strokeWidth={3} />, color: 'var(--color-primary)' },
+    featured: { label: 'Featured', icon: <Camera size={12} strokeWidth={3} />, color: '#e8c874' },
+    new: { label: 'New', icon: <Sparkles size={12} strokeWidth={3} />, color: '#5fc7b8' },
 };
 
 export default function MenuCard({
@@ -61,14 +62,15 @@ export default function MenuCard({
                                     letterSpacing: '0.05em',
                                     textTransform: 'uppercase',
                                     color: '#fdfbf7',
-                                    backgroundColor: 'rgba(7,9,17,0.72)',
+                                    backgroundColor: 'rgba(5, 7, 10, 0.72)',
                                     backdropFilter: 'blur(6px)',
-                                    border: `1px solid ${BADGE_META[b].color}55`,
+                                    border: `1px solid ${BADGE_META[b].color}`,
+                                    boxShadow: `0 2px 8px ${BADGE_META[b].color}40`,
                                     borderRadius: 'var(--radius-pill)',
                                     padding: '4px 10px',
                                 }}
                             >
-                                <span aria-hidden="true">{BADGE_META[b].icon}</span>
+                                <span aria-hidden="true" style={{ display: 'flex' }}>{BADGE_META[b].icon}</span>
                                 {BADGE_META[b].label}
                             </span>
                         ))}
