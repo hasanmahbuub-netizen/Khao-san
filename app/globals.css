@@ -562,43 +562,43 @@ select.premium-input {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        gap: 6px;
+        gap: 0;
         position: fixed;
-        right: 12px;
+        right: 0;
         top: 50%;
         transform: translateY(-50%);
-        z-index: 90;
+        z-index: 9999;
         max-height: 80vh;
-        overflow-y: auto;
-        scrollbar-width: none;
-        padding: 12px 2px;
+        padding: 8px 6px 8px 16px;
         touch-action: none;
-        -webkit-overflow-scrolling: touch;
+        -webkit-touch-callout: none;
+        user-select: none;
+        -webkit-user-select: none;
     }
-    .menu-rail::-webkit-scrollbar { display: none; }
     .menu-rail-item {
+        all: unset;
         position: relative;
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        padding: 7px 0;
-        min-height: 22px;
-        text-decoration: none;
+        padding: 8px 0;
+        min-height: 28px;
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
+        touch-action: none;
     }
     .menu-rail-name {
         position: absolute;
-        right: calc(100% + 12px);
+        right: calc(100% + 14px);
         top: 50%;
         font-family: var(--font-display);
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         text-transform: uppercase;
         letter-spacing: 2px;
         line-height: 1.05;
         white-space: nowrap;
         transform-origin: right center;
-        text-shadow: 0 2px 12px rgba(7, 9, 17, 0.96), 0 0 3px rgba(7, 9, 17, 0.95);
+        text-shadow: 0 2px 12px rgba(7, 9, 17, 0.96), 0 0 4px rgba(7, 9, 17, 0.98);
         transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
                     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
                     color 0.3s ease;

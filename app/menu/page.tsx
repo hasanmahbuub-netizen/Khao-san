@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, useSyncExternalStore } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import MenuCard, { MenuBadge } from '@/components/ui/menu-card';
@@ -203,11 +203,9 @@ export default function Menu() {
     const [activeIndex, setActiveIndex] = useState(0);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
-    // The rail is portalled to <body> so its position:fixed resolves against the
-    // viewport, not the transformed .page-transition <main> that wraps the page.
-    // useSyncExternalStore gives a clean client/server flag with no hydration
-    // mismatch (false on the server, true once mounted on the client).
-    const railMounted = useSyncExternalStore(() => () => {}, () => true, () => false);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only portal guard
+    const [railMounted, setRailMounted] = useState(false);
+    useEffect(() => { setRailMounted(true); }, []);
     const navRefs = useRef<(HTMLAnchorElement | null)[]>([]);
     const [pillStyle, setPillStyle] = useState({ left: 0, width: 0, opacity: 0 });
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -267,20 +265,27 @@ export default function Menu() {
         }
     };
 
-    // The phone rail is driven by pointer events (touch → pointer on phones),
-    // so a finger dragged along it can magnify sections and jump on release.
     const railPressed = useRef(false);
+    const railRef = useRef<HTMLElement>(null);
 
-    const focusFromPoint = (clientX: number, clientY: number) => {
-        const element = document.elementFromPoint(clientX, clientY);
-        const indexAttr = element?.getAttribute('data-index');
-        if (indexAttr != null) {
-            const idx = parseInt(indexAttr, 10);
+    const focusFromPoint = useCallback((clientX: number, clientY: number) => {
+        const items = railRef.current?.querySelectorAll('[data-index]');
+        if (!items) return;
+        let closest: Element | null = null;
+        let closestDist = Infinity;
+        items.forEach(item => {
+            const rect = item.getBoundingClientRect();
+            const cy = rect.top + rect.height / 2;
+            const dist = Math.abs(clientY - cy);
+            if (dist < closestDist) { closestDist = dist; closest = item; }
+        });
+        if (closest) {
+            const idx = parseInt((closest as HTMLElement).getAttribute('data-index') || '', 10);
             if (!isNaN(idx)) setFocusedIndex(idx);
         }
-    };
+    }, []);
 
-    const jumpTo = (index: number) => {
+    const jumpTo = useCallback((index: number) => {
         const category = MENU_DATA[index];
         const el = document.getElementById(category.id);
         if (el) {
@@ -288,28 +293,27 @@ export default function Menu() {
             window.scrollTo({ top: y, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
             setActiveIndex(index);
         }
-    };
+    }, []);
 
-    const handleRailPointerDown = (e: React.PointerEvent) => {
+    const handleRailStart = useCallback((clientX: number, clientY: number) => {
         railPressed.current = true;
         setMobileMenuOpen(true);
-        try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); } catch { /* noop */ }
-        focusFromPoint(e.clientX, e.clientY);
-    };
+        focusFromPoint(clientX, clientY);
+    }, [focusFromPoint]);
 
-    const handleRailPointerMove = (e: React.PointerEvent) => {
+    const handleRailMove = useCallback((clientY: number) => {
         if (!railPressed.current) return;
-        focusFromPoint(e.clientX, e.clientY);
-    };
+        focusFromPoint(0, clientY);
+    }, [focusFromPoint]);
 
-    const handleRailPointerUp = () => {
+    const handleRailEnd = useCallback(() => {
         if (railPressed.current && focusedIndex !== null) {
             jumpTo(focusedIndex);
         }
         railPressed.current = false;
         setMobileMenuOpen(false);
         setFocusedIndex(null);
-    };
+    }, [focusedIndex, jumpTo]);
 
     return (
         <>
@@ -473,92 +477,13 @@ export default function Menu() {
                     }
                 }
                 @media (max-width: 768px) {
-                    /* Hide horizontal nav entirely on phone */
                     .menu-nav-section {
                         display: none !important;
                     }
-                    
-                    /* Shrink food section content to make whitespace on the right */
-                    .menu-sections {
-                        padding-right: 52px !important;
-                        padding-top: 100px !important;
-                    }
-                    .menu-category .container {
-                        padding-right: 8px !important;
-                        padding-left: 16px !important;
-                    }
-                    
-                    /* Responsive category headers */
                     .menu-category h2 {
                         font-size: 2rem !important;
                         padding-bottom: 16px !important;
                         margin-bottom: 32px !important;
-                    }
-                    
-                    /* Vertical Sidebar Nav - Minimalist float index style */
-                    .mobile-vertical-nav {
-                        display: flex !important;
-                        position: fixed;
-                        right: 16px;
-                        top: 140px; /* Start below header */
-                        bottom: 40px;
-                        width: 140px; /* Width matching the gutter padding */
-                        z-index: 100;
-                        align-items: center;
-                        justify-content: flex-end;
-                        pointer-events: auto;
-                    }
-                    
-                    .dots-track {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-end;
-                        gap: 12px;
-                        cursor: pointer;
-                        padding: 20px 0;
-                        z-index: 102;
-                        width: 32px;
-                    }
-                    
-                    .nav-dash {
-                        height: 2px;
-                        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-                        border-radius: 1px;
-                    }
-                    
-                    .sidebar-names {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-end;
-                        gap: 12px;
-                        margin-right: 12px;
-                        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-                        pointer-events: none;
-                        text-align: right;
-                        z-index: 101;
-                    }
-                    
-                    .sidebar-link {
-                        font-family: var(--font-display);
-                        font-size: 1.2rem;
-                        text-decoration: none;
-                        text-transform: uppercase;
-                        letter-spacing: 2px;
-                        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-                        display: block;
-                        line-height: 1.1;
-                    }
-                }
-                .desktop-menu-only { display: block; }
-                .mobile-menu-only { display: none; }
-                @media (max-width: 768px) {
-                    .desktop-menu-only { display: none !important; }
-                    .mobile-menu-only { display: block !important; }
-                }
-                /* Mobile specific overrides */
-                @media (max-width: 768px) {
-                    .menu-sections {
-                        padding-right: 24px; /* Give space for dots */
                     }
                 }
             `}} />
@@ -571,12 +496,16 @@ export default function Menu() {
             <body> so its position:fixed escapes the transformed page wrapper. */}
         {railMounted && createPortal(
         <nav
+            ref={railRef}
             className="menu-rail"
             aria-label="Menu sections"
-            onPointerDown={handleRailPointerDown}
-            onPointerMove={handleRailPointerMove}
-            onPointerUp={handleRailPointerUp}
-            onPointerCancel={handleRailPointerUp}
+            onTouchStart={(e) => { e.preventDefault(); const t = e.touches[0]; handleRailStart(t.clientX, t.clientY); }}
+            onTouchMove={(e) => { e.preventDefault(); const t = e.touches[0]; handleRailMove(t.clientY); }}
+            onTouchEnd={() => handleRailEnd()}
+            onTouchCancel={() => handleRailEnd()}
+            onPointerDown={(e) => { if (e.pointerType === 'mouse') handleRailStart(e.clientX, e.clientY); }}
+            onPointerMove={(e) => { if (e.pointerType === 'mouse') handleRailMove(e.clientY); }}
+            onPointerUp={(e) => { if (e.pointerType === 'mouse') handleRailEnd(); }}
         >
             {MENU_DATA.map((category, index) => {
                 const refIndex = focusedIndex !== null ? focusedIndex : activeIndex;
@@ -589,16 +518,17 @@ export default function Menu() {
                 const nameOpacity = distance === 0 ? 1 : distance === 1 ? 0.72 : distance === 2 ? 0.45 : 0.28;
                 const dashOpacity = isActive ? 1 : 0.25 + (1 - Math.min(distance, 3) / 3) * 0.55;
                 return (
-                    <a
+                    <button
                         key={category.id}
-                        href={`#${category.id}`}
+                        type="button"
                         data-index={index}
                         aria-current={isActive ? 'true' : undefined}
                         className="menu-rail-item"
-                        onClick={(e) => e.preventDefault()}
+                        onClick={() => jumpTo(index)}
                     >
                         <span
                             className="menu-rail-name"
+                            data-index={index}
                             style={{
                                 opacity: showName ? nameOpacity : 0,
                                 transform: `translateY(-50%) translateX(${showName ? 0 : 12}px) scale(${nameScale})`,
@@ -609,6 +539,7 @@ export default function Menu() {
                         </span>
                         <span
                             className="menu-rail-dash"
+                            data-index={index}
                             style={{
                                 width: `${dashW}px`,
                                 backgroundColor: isActive ? 'var(--color-primary)' : '#fff',
@@ -616,7 +547,7 @@ export default function Menu() {
                                 boxShadow: isActive ? '0 0 10px var(--color-primary)' : 'none',
                             }}
                         />
-                    </a>
+                    </button>
                 );
             })}
         </nav>,
