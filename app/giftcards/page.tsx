@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import SectionOverlay from '@/components/ui/section-overlay';
+import SectionBlend from '@/components/ui/section-blend';
 
 const WHATSAPP_NUMBER = '8801600068193';
 const waLink = (message: string) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -16,28 +17,35 @@ export default function GiftCardsPage() {
             {/* Section 1: The Flagship Hero — same split-grid logic as the menu
                 hero: contained copy on the left, the card composition on the
                 right, one padding rhythm, on a designed lotus-corners ground */}
-            <section className="bg-lotus-corners" style={{ position: 'relative', overflow: 'hidden', minHeight: '92vh', display: 'flex', alignItems: 'center' }}>
+             <section className="bg-lotus-corners" style={{ position: 'relative', overflow: 'hidden', minHeight: '92vh', display: 'flex', alignItems: 'center' }}>
+                <SectionBlend />
                 <div aria-hidden="true" style={{ position: 'absolute', top: '50%', right: '8%', transform: 'translateY(-50%)', width: 'min(720px, 55vw)', height: '480px', background: 'radial-gradient(ellipse at center, rgba(240, 139, 67, 0.12) 0%, rgba(240, 139, 67, 0) 66%)', pointerEvents: 'none', zIndex: 0 }}></div>
 
                 <div className="giftcard-hero-inner">
-                    {/* Copy */}
-                    <div className="reveal-hidden">
-                        <span className="overline" style={{ color: 'var(--color-primary)', letterSpacing: '4px', display: 'block', marginBottom: '18px' }}>Gift Cards</span>
+                    {/* Header — first grid child, on mobile order pushes it above cards */}
+                    <div className="reveal-hidden gift-hero-head">
+                        <span className="overline" style={{ color: 'var(--color-primary)', letterSpacing: '4px', display: 'inline-flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
+                            <span style={{ width: '32px', height: '1px', background: 'var(--color-primary)', display: 'inline-block' }}></span>
+                            Gift Cards
+                        </span>
                         <h1 style={{
                             fontFamily: 'var(--font-display)',
                             fontSize: 'clamp(2.75rem, 5.5vw, 4.75rem)',
                             lineHeight: 1.08,
                             letterSpacing: '-0.02em',
-                            marginBottom: '24px',
                             color: '#fdfbf7',
                             fontWeight: 700,
-                            textWrap: 'balance'
+                            textWrap: 'balance',
                         }}>
                             An evening, <span style={{ color: 'var(--color-primary)', fontStyle: 'italic' }}>Gifted.</span>
                         </h1>
+                    </div>
+
+                    {/* Body text — desktop: column 1 row 2. Mobile: below cards. */}
+                    <div className="reveal-hidden gift-hero-body">
 
                         <p style={{ color: 'rgba(253,251,247,0.82)', fontSize: '1.1rem', marginBottom: '32px', lineHeight: 1.7, maxWidth: '44ch' }}>
-                            The perfect present for special occasions, a Khao San gift card unlocks the full menu across all three outlets. Message us on WhatsApp to arrange yours.
+                            The perfect present for special occasions — unlocks the full menu across all three outlets. Message us on WhatsApp to arrange yours.
                         </p>
 
                         <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 40px 0', display: 'flex', flexDirection: 'column', gap: '14px', color: 'rgba(253,251,247,0.9)', fontSize: '1rem' }}>
@@ -92,6 +100,7 @@ export default function GiftCardsPage() {
 
             {/* Section 2: The Collection (Z-Pattern) */}
             <section id="collection" className="bg-lattice--quiet" style={{ padding: 'var(--space-macro) 0', position: 'relative', overflow: 'hidden' }}>
+                <SectionBlend />
                 <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
                     <div style={{ textAlign: 'center', marginBottom: '80px' }}>
                         <span className="overline" style={{ color: 'var(--color-primary)', letterSpacing: '4px' }}>The Collection</span>
@@ -146,6 +155,7 @@ export default function GiftCardsPage() {
 
             {/* Section 3: The Mechanics */}
             <section className="bg-lattice--quiet" style={{ padding: 'var(--space-macro) 0' }}>
+                <SectionBlend />
                 <div className="container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '48px' }}>
                         
@@ -185,7 +195,7 @@ export default function GiftCardsPage() {
 
             {/* Section 4: Corporate Gifting */}
             <section style={{ position: 'relative', overflow: 'hidden' }}>
-                <SectionOverlay backgroundImage="/assets/Background-20260709T183540Z-2-001/Background/Lotus/Lotus BG.webp" overlayOpacity={0.82}>
+                <SectionOverlay backgroundImage="/assets/Background-20260709T183540Z-2-001/Background/Lotus/Lotus BG.webp" overlayOpacity={0.82} blend>
                     <div className="container" style={{ position: 'relative', zIndex: 2, paddingTop: 'var(--space-macro)', paddingBottom: 'var(--space-macro)', textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
                         <span className="overline" style={{ color: 'var(--color-primary)', letterSpacing: '4px', marginBottom: '24px', display: 'block' }}>Corporate & Bulk</span>
                         <h2 className="display-2" style={{ marginBottom: '32px' }}>Impress Your Clients. <br /> Reward Your Team.</h2>

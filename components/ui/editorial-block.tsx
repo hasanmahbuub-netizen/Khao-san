@@ -65,7 +65,7 @@ export default function EditorialBlock({
                             }}
                         />
                     ) : (
-                        <Image src={mediaSrc} alt={mediaAlt || title} fill style={{objectFit: 'cover', display: 'block'}} sizes="(max-width: 768px) 100vw, 60vw" />
+                        <Image src={mediaSrc} alt={mediaAlt || title} fill className="img-feather" style={{objectFit: 'cover', display: 'block'}} sizes="(max-width: 768px) 100vw, 60vw" />
                     )}
                 </div>
                 

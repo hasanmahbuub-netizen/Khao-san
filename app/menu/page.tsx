@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import MenuCard, { MenuBadge } from '@/components/ui/menu-card';
+import SectionBlend from '@/components/ui/section-blend';
 
 interface RawMenuItem {
     number: number;
@@ -203,9 +204,17 @@ export default function Menu() {
     const [activeIndex, setActiveIndex] = useState(0);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only portal guard
-    const [railMounted, setRailMounted] = useState(false);
-    useEffect(() => { setRailMounted(true); }, []);
+    const [railVisible, setRailVisible] = useState(false);
+    useEffect(() => {
+        const hero = document.querySelector('.menu-hero');
+        if (!hero) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => setRailVisible(!entry.isIntersecting),
+            { threshold: 0 }
+        );
+        observer.observe(hero);
+        return () => observer.disconnect();
+    }, []);
     const navRefs = useRef<(HTMLAnchorElement | null)[]>([]);
     const [pillStyle, setPillStyle] = useState({ left: 0, width: 0, opacity: 0 });
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -319,6 +328,7 @@ export default function Menu() {
         <>
         {/*  Menu Hero — one dramatic dish under a warm spotlight, immersive  */}
         <section className="menu-hero bg-lattice">
+            <SectionBlend />
             <div className="menu-hero-glow" aria-hidden="true"></div>
             <div className="menu-hero-inner">
                 <div className="reveal-hidden menu-hero-copy">
@@ -338,13 +348,13 @@ export default function Menu() {
                 <div className="reveal-hidden menu-hero-stage">
                     <div className="menu-hero-cluster">
                         <div className="dish dish--float mh-dish mh-dish--hero" style={{ aspectRatio: '1 / 1' }}>
-                            <Image className="dish-img" src="/assets/Menu/KS Menu Webp/B. Soups/Tom Yum Goong.webp" alt="Tom Yum Goong" fill sizes="(max-width: 860px) 60vw, 30vw" priority />
+                            <Image className="dish-img img-feather" src="/assets/Menu/KS Menu Webp/B. Soups/Tom Yum Goong.webp" alt="Tom Yum Goong" fill sizes="(max-width: 860px) 60vw, 30vw" priority />
                         </div>
                         <div className="dish dish--float mh-dish mh-dish--sat-a" style={{ aspectRatio: '1 / 1' }}>
-                            <Image className="dish-img" src="/assets/Menu/KS Menu Webp/E. Noodles/Pad Thai.webp" alt="Pad Thai" fill sizes="(max-width: 860px) 34vw, 17vw" />
+                            <Image className="dish-img img-feather" src="/assets/Menu/KS Menu Webp/E. Noodles/Pad Thai.webp" alt="Pad Thai" fill sizes="(max-width: 860px) 34vw, 17vw" />
                         </div>
                         <div className="dish dish--float mh-dish mh-dish--sat-b" style={{ aspectRatio: '1 / 1' }}>
-                            <Image className="dish-img" src="/assets/Menu/KS Menu Webp/D. Salads/Som Tam (Thai Papaya Salad).webp" alt="Som Tam papaya salad" fill sizes="(max-width: 860px) 26vw, 13vw" />
+                            <Image className="dish-img img-feather" src="/assets/Menu/KS Menu Webp/D. Salads/Som Tam (Thai Papaya Salad).webp" alt="Som Tam papaya salad" fill sizes="(max-width: 860px) 26vw, 13vw" />
                         </div>
                     </div>
                 </div>
@@ -494,7 +504,7 @@ export default function Menu() {
             or tap to jump. The active section stays marked at all times. Hidden
             on desktop, where the horizontal pill nav takes over. Portalled to
             <body> so its position:fixed escapes the transformed page wrapper. */}
-        {railMounted && createPortal(
+        {railVisible && createPortal(
         <nav
             ref={railRef}
             className="menu-rail"
@@ -599,7 +609,8 @@ export default function Menu() {
         </div>
 
         {/* Menu terms & legend — sourced from the printed menu's closing page */}
-        <section style={{ backgroundColor: 'var(--color-surface-elevated)', padding: '56px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <section style={{ backgroundColor: 'var(--color-surface-elevated)', padding: '56px 0', borderTop: '1px solid rgba(255,255,255,0.05)', position: 'relative' }}>
+            <SectionBlend />
             <div className="container">
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '32px' }}>
                     <span style={{ color: 'var(--color-text-secondary)', fontSize: '0.85rem' }}>🌶️ Spicy</span>

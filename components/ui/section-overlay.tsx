@@ -1,4 +1,5 @@
 import React from 'react';
+import SectionBlend from '@/components/ui/section-blend';
 
 interface SectionOverlayProps {
     backgroundImage: string;
@@ -6,6 +7,7 @@ interface SectionOverlayProps {
     padding?: string;
     children: React.ReactNode;
     className?: string;
+    blend?: boolean;
 }
 
 export default function SectionOverlay({ 
@@ -13,7 +15,8 @@ export default function SectionOverlay({
     overlayOpacity = 0.6, 
     padding = 'var(--space-macro) 0',
     children,
-    className = ''
+    className = '',
+    blend = false,
 }: SectionOverlayProps) {
     return (
         <section className={`pattern-overlay ${className}`.trim()} style={{
@@ -36,6 +39,7 @@ export default function SectionOverlay({
                     zIndex: 0
                 }}
             ></div>
+            {blend && <SectionBlend />}
             {children}
         </section>
     );

@@ -13,7 +13,7 @@ export default function Locations() {
         />
 
         {/* Locations Grid Spread */}
-        <SectionOverlay backgroundImage="/assets/Background-20260709T183540Z-2-001/Background/Landing Page Section/Lotus background.webp" overlayOpacity={0.6} padding="0 0 var(--space-macro) 0">
+        <SectionOverlay backgroundImage="/assets/Background-20260709T183540Z-2-001/Background/Landing Page Section/Lotus background.webp" overlayOpacity={0.6} padding="0 0 var(--space-macro) 0" blend>
             
             <div style={{position: 'relative', zIndex: 2, width: '100%', margin: 0, padding: 0}}>
                 <div style={{display: 'flex', flexDirection: 'column', gap: 0}}>

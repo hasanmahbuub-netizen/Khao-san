@@ -44,7 +44,7 @@ export default function MenuCard({
     return (
         <div className={`reveal-hidden menu-card ${isEven ? 'is-even' : 'is-odd'}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', textAlign: 'left' }}>
             <div className={`dish${angled ? ' dish--angled' : ''}`} style={{ position: 'relative', width: '100%', aspectRatio: '1/1', marginBottom: '20px' }}>
-                <Image className="dish-img" src={imageSrc} alt={title} fill style={{ padding: '8%' }} sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
+                <Image className="dish-img img-feather" src={imageSrc} alt={title} fill style={{ padding: '8%' }} sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
 
                 {badges.length > 0 && (
                     <div style={{ position: 'absolute', top: '0', left: '0', display: 'flex', gap: '6px', flexWrap: 'wrap', maxWidth: 'calc(100% - 24px)', zIndex: 3 }}>

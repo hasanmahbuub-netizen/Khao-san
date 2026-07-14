@@ -7,6 +7,7 @@ import SectionOverlay from '@/components/ui/section-overlay';
 import LocationCard from '@/components/ui/location-card';
 import BackgroundVideo from '@/components/ui/background-video';
 import BrushTransition from '@/components/ui/brush-transition';
+import SectionBlend from '@/components/ui/section-blend';
 import { useReservation } from '@/components/ReservationContext';
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
         <>
         {/* CHAPTER I: THE THRESHOLD (Hero) */}
         <section className="hero" style={{position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'var(--color-surface-base)'}}>
+            <SectionBlend />
             <BackgroundVideo
                 src="/assets/Brand_Asset/Khao_San_Thoughtful_interiors_fl_1602693357399955_720p_20260706.mp4"
                 style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, opacity: 0.4}}
@@ -37,13 +39,6 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* Scroll Indicator — an ember drifting upward, the fire motif carried forward */}
-            <div style={{position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 2, textAlign: 'center', opacity: 0.6}}>
-                <span className="overline" style={{fontSize: '0.75rem', letterSpacing: '3px', display: 'block', marginBottom: '8px'}}>Scroll to Step In</span>
-                <div className="ember-drift-track">
-                    <div className="ember-drift-dot"></div>
-                </div>
-            </div>
         </section>
 
         {/* The seam between chapters is a mark, not a cut */}
@@ -54,6 +49,7 @@ export default function Home() {
             backgroundImage="/assets/Background-20260709T183540Z-2-001/Background/Lotus/Lotus BG.webp"
             overlayOpacity={0.74}
             className="overflow-hidden"
+            blend
         >
             <div className="container" style={{position: 'relative', zIndex: 2, paddingTop: 'var(--space-macro)', paddingBottom: 'var(--space-macro)'}}>
                 <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8vw', margin: '0 auto'}}>
@@ -94,6 +90,7 @@ export default function Home() {
 
         {/* CHAPTER III: THE STORY — immersive editorial storytelling band */}
         <section className="heritage reveal-hidden bg-lattice--quiet">
+            <SectionBlend />
             <div className="heritage-inner">
                 <div className="heritage-head">
                     <span className="heritage-eyebrow">Our Heritage</span>
@@ -105,6 +102,7 @@ export default function Home() {
                 <div className="heritage-mosaic">
                     <figure className="hm hm--feature">
                         <Image
+                            className="img-feather"
                             src="/assets/Location_Image_1_1/Gulshan_Outlet_2.webp"
                             alt="Khao San flagship dining room, Gulshan"
                             fill
@@ -117,6 +115,7 @@ export default function Home() {
 
                     <figure className="hm hm--tall">
                         <Image
+                            className="img-feather"
                             src="/assets/Location_Image_1_1/Dhanmondi_Outlet_1.webp"
                             alt="Khao San dining room, Dhanmondi"
                             fill
@@ -129,6 +128,7 @@ export default function Home() {
 
                     <figure className="hm hm--wide">
                         <Image
+                            className="img-feather"
                             src="/assets/Location_Image_1_1/Uttara_Outlet_3.webp"
                             alt="Khao San night-market dining room, Uttara"
                             fill
@@ -154,6 +154,7 @@ export default function Home() {
         {/* CHAPTER IV: THE EXHIBITION (Food Spotlight) — a clean gallery wall,
             not another full lotus wash, so the photography carries the section */}
         <section className="bg-lattice" style={{ position: 'relative', padding: 'var(--space-macro) 0', overflow: 'hidden' }}>
+            <SectionBlend />
 
             <div className="container" style={{position: 'relative', zIndex: 2}}>
                 <div style={{textAlign: 'left', marginBottom: '80px', maxWidth: '1000px', margin: '0 auto 80px'}}>
@@ -164,13 +165,12 @@ export default function Home() {
                 <div style={{display: 'flex', flexDirection: 'column', gap: 'clamp(80px, 12vw, 160px)', maxWidth: '1120px', margin: '0 auto'}}>
                     {/* 01 — Pad Thai: large plate left, copy set into the right column */}
                     <div className="spread">
-                        <div className="spread-media reveal-toss">
-                            <div className="dish dish--angled" style={{ position: 'relative', aspectRatio: '1/1' }}>
-                                <Image className="dish-img" src="/assets/Menu/KS Menu Webp/E. Noodles/Pad Thai.webp" alt="Pad Thai" fill sizes="(max-width: 820px) 90vw, 52vw" />
-                            </div>
+                    <div className="spread-media reveal-toss">
+                        <div className="dish dish--angled" style={{ position: 'relative', aspectRatio: '1/1' }}>
+                            <Image className="dish-img img-feather" src="/assets/Menu/KS Menu Webp/E. Noodles/Pad Thai.webp" alt="Pad Thai" fill sizes="(max-width: 820px) 90vw, 52vw" />
                         </div>
+                    </div>
                         <div className="spread-copy">
-                            <span className="spread-index" aria-hidden="true">01</span>
                             <div className="spread-meta">
                                 <span style={{color: 'var(--color-primary)', fontWeight: 600, fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase'}}>★ Signature</span>
                                 <span style={{color: 'var(--color-text-secondary)', fontSize: '0.9rem', fontStyle: 'italic'}}>Tamarind &amp; Charred Wok</span>
@@ -187,7 +187,6 @@ export default function Home() {
                     {/* 02 — Tom Yum: copy left, large plate bleeding into the right */}
                     <div className="spread spread--reverse">
                         <div className="spread-copy">
-                            <span className="spread-index" aria-hidden="true">02</span>
                             <div className="spread-meta">
                                 <span style={{color: '#ff6b4d', fontWeight: 600, fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase'}}>🌶 Fiery</span>
                                 <span style={{color: 'var(--color-text-secondary)', fontSize: '0.9rem', fontStyle: 'italic'}}>Lemongrass &amp; Kaffir Lime</span>
@@ -201,7 +200,7 @@ export default function Home() {
                         </div>
                         <div className="spread-media reveal-toss">
                             <div className="dish" style={{ position: 'relative', aspectRatio: '1/1' }}>
-                                <Image className="dish-img" src="/assets/Menu/KS Menu Webp/B. Soups/Tom Yum Goong.webp" alt="Tom Yum Goong" fill sizes="(max-width: 820px) 90vw, 52vw" />
+                                <Image className="dish-img img-feather" src="/assets/Menu/KS Menu Webp/B. Soups/Tom Yum Goong.webp" alt="Tom Yum Goong" fill sizes="(max-width: 820px) 90vw, 52vw" />
                             </div>
                         </div>
                     </div>
@@ -211,6 +210,7 @@ export default function Home() {
 
         {/* CHAPTER V: THE HAVENS (Locations Spread - Full Width / Reduced Margins) */}
         <section className="bg-lattice--quiet" style={{ padding: '120px 0 0 0', position: 'relative', overflow: 'hidden' }}>
+            <SectionBlend />
 
             {/* A warm atmospheric glow ties the heading to the vibrant rooms
                 below, so it reads as one composition rather than a black void
@@ -269,46 +269,47 @@ export default function Home() {
             accent and a warm glow. overflow:hidden keeps the tilted cards from
             spilling into the Reserve section below. */}
         <section className="reveal-hidden" style={{ position: 'relative', overflow: 'hidden', backgroundColor: 'var(--color-surface-base)' }}>
+            <SectionBlend />
             <div aria-hidden="true" style={{ position: 'absolute', top: '50%', right: '8%', transform: 'translateY(-50%)', width: 'min(760px, 60vw)', height: '460px', background: 'radial-gradient(ellipse at center, rgba(240, 139, 67, 0.10) 0%, rgba(240, 139, 67, 0) 66%)', pointerEvents: 'none', zIndex: 0 }}></div>
             <div className="container" style={{position: 'relative', zIndex: 2, paddingTop: 'var(--space-macro)', paddingBottom: 'var(--space-macro)'}}>
-                <div style={{display: 'flex', flexWrap: 'wrap-reverse', gap: '10%', alignItems: 'center', maxWidth: '1440px', margin: '0 auto'}}>
-                    
-                    {/* Left: 30% Text Column */}
-                    <div className="reveal-stagger" style={{flex: '0 1 30%', minWidth: '320px', paddingRight: '20px'}}>
-                        <h2 style={{
-                            fontFamily: 'var(--font-display)', 
-                            fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', 
-                            lineHeight: 1.1, 
-                            marginBottom: '24px',
-                            color: '#fdfbf7',
-                            fontWeight: 600
-                        }}>
-                            An evening, <span style={{color: 'var(--color-primary)', fontStyle: 'italic'}}>Gifted.</span>
-                        </h2>
-                        
+                <div className="landing-gift-grid">
+
+                    {/* Header — desktop: col 1 row 1. Mobile: first (order -2). */}
+                    <h2 className="reveal-stagger landing-gift-head" style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
+                        lineHeight: 1.1,
+                        color: '#fdfbf7',
+                        fontWeight: 600
+                    }}>
+                        An evening, <span style={{color: 'var(--color-primary)', fontStyle: 'italic'}}>Gifted.</span>
+                    </h2>
+
+                    {/* Body — desktop: col 1 row 2. Mobile: last (order 0). */}
+                    <div className="reveal-stagger landing-gift-body">
                         <p style={{
-                            color: '#fdfbf7', 
-                            fontSize: '1.05rem', 
-                            marginBottom: '32px', 
+                            color: '#fdfbf7',
+                            fontSize: '1.05rem',
+                            marginBottom: '32px',
                             lineHeight: 1.6,
                             opacity: 0.9
                         }}>
                             The perfect present for special occasions, a Khao San gift card unlocks the full menu across all three outlets. Delivered digitally, redeemable instantly.
                         </p>
-                        
+
                         <ul style={{
-                            listStyle: 'none', 
-                            padding: 0, 
-                            margin: '0 0 40px 0', 
-                            display: 'flex', 
-                            flexDirection: 'column', 
-                            gap: '16px', 
-                            color: '#fdfbf7', 
+                            listStyle: 'none',
+                            padding: 0,
+                            margin: '0 0 40px 0',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '16px',
+                            color: '#fdfbf7',
                             fontSize: '0.95rem'
                         }}>
                             <li style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
                                 <span style={{width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-primary)', display: 'inline-block'}}></span>
-                                Redeemable at Dhanmondi, Gulshan & Uttara
+                                Redeemable at Dhanmondi, Gulshan &amp; Uttara
                             </li>
                             <li style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
                                 <span style={{width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-primary)', display: 'inline-block'}}></span>
@@ -319,14 +320,14 @@ export default function Home() {
                                 No expiry, No hidden fees
                             </li>
                         </ul>
-                        
+
                         <Link href="/giftcards" className="btn btn-primary">
                             Purchase Gift Card &rarr;
                         </Link>
                     </div>
 
-                    {/* Right: Picture Showcase */}
-                    <div className="reveal-hidden" style={{flex: '1 1 55%', position: 'relative', minWidth: 'min(400px, 100%)', minHeight: '460px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: '40px 0'}}>
+                    {/* Cards — desktop: col 2 rows 1-2. Mobile: second (order -1). */}
+                    <div className="reveal-hidden landing-gift-cards" style={{position: 'relative', minHeight: '460px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
 
                         {/* Dynamic Orange Brush/Splash Backdrop - Sweeping Curve */}
                         {/* Bottom-Left piece */}
@@ -398,8 +399,9 @@ export default function Home() {
 
         {/* CHAPTER VII: THE INVITATION */}
         <section style={{position: 'relative', overflow: 'hidden', padding: '160px 0', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <SectionBlend />
             <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0}}>
-                <Image src="/assets/Background-20260709T183540Z-2-001/Background/Landing Page Section/Lotus background.webp" alt="" fill style={{objectFit: 'cover'}} />
+                <Image src="/assets/Background-20260709T183540Z-2-001/Background/Landing Page Section/Lotus background.webp" alt="" fill className="img-feather" style={{objectFit: 'cover'}} />
             </div>
             <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(7, 9, 17, 0.8)', zIndex: 1}}></div>
             

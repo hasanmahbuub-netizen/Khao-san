@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import SectionOverlay from '@/components/ui/section-overlay';
 import EditorialBlock from '@/components/ui/editorial-block';
+import SectionBlend from '@/components/ui/section-blend';
 import { useReservation } from '@/components/ReservationContext';
 
 export default function About() {
@@ -10,11 +11,13 @@ export default function About() {
         <>
         {/* Editorial hero — an atmospheric room, the narrative set into it */}
         <section style={{ position: 'relative', minHeight: '86vh', display: 'flex', alignItems: 'flex-end', overflow: 'hidden', backgroundColor: 'var(--color-surface-base)', paddingTop: '120px', paddingBottom: '80px' }}>
+            <SectionBlend />
             <Image
                 src="/assets/Location_Image_1_1/Uttara_Outlet_3.webp"
                 alt="Inside Khao San"
                 fill
                 priority
+                className="img-feather"
                 style={{ objectFit: 'cover', opacity: 0.55 }}
                 sizes="100vw"
             />
@@ -33,7 +36,7 @@ export default function About() {
         </section>
 
         {/* Editorial Block 01: Thoughtful Interiors */}
-        <SectionOverlay backgroundImage="/assets/Background-20260709T183540Z-2-001/Background/Landing Page Section/Lotus background.webp" overlayOpacity={0.6}>
+        <SectionOverlay backgroundImage="/assets/Background-20260709T183540Z-2-001/Background/Landing Page Section/Lotus background.webp" overlayOpacity={0.6} blend>
             <EditorialBlock
                 overline="Atmosphere"
                 title="Thoughtful interiors."
@@ -45,7 +48,7 @@ export default function About() {
         </SectionOverlay>
 
         {/* Editorial Block 02: Food as Experience */}
-        <SectionOverlay backgroundImage="/assets/Background-20260709T183540Z-2-001/Background/Elephant 16 by 9 Ratio Landscape.webp" overlayOpacity={0.6}>
+        <SectionOverlay backgroundImage="/assets/Background-20260709T183540Z-2-001/Background/Elephant 16 by 9 Ratio Landscape.webp" overlayOpacity={0.6} blend>
             <EditorialBlock
                 overline="Craft"
                 title="Food is fuel, but it's an experience."
@@ -57,7 +60,7 @@ export default function About() {
         </SectionOverlay>
 
         {/* Editorial Block 03: The Invitation */}
-        <SectionOverlay backgroundImage="/assets/Background-20260709T183540Z-2-001/Background/Footer/Footer.webp" overlayOpacity={0.6}>
+        <SectionOverlay backgroundImage="/assets/Background-20260709T183540Z-2-001/Background/Footer/Footer.webp" overlayOpacity={0.6} blend>
             <EditorialBlock
                 overline="The Invitation"
                 title="The wait is finally over."

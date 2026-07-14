@@ -650,8 +650,9 @@ select.premium-input {
     width: 100%;
 }
 /* Overhead key light — a soft warm pool falling across the top of the plate,
-   as if lit from the upper side. Barely there at rest, it swells on hover so
-   the dish feels freshly caught under a spotlight. */
+   as if lit from the upper side. The element extends above the dish and is
+   clipped by overflow:hidden, so the top edge dissolves instead of cutting
+   in with a straight line. */
 .dish::before {
     content: "";
     position: absolute;
@@ -660,25 +661,33 @@ select.premium-input {
     width: 84%;
     height: 74%;
     transform: translateX(-50%);
-    background: radial-gradient(ellipse 62% 50% at 50% 26%, rgba(255, 238, 214, 0.14) 0%, rgba(255, 238, 214, 0) 70%);
+    background: radial-gradient(ellipse 62% 50% at 50% 26%, rgba(255, 238, 214, 0.26) 0%, rgba(255, 238, 214, 0) 70%);
+    -webkit-mask-image:
+        linear-gradient(to right, transparent 0, #000 15%, #000 85%, transparent 100%),
+        linear-gradient(to bottom, transparent 0, #000 20%, #000 85%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        linear-gradient(to right, transparent 0, #000 15%, #000 85%, transparent 100%),
+        linear-gradient(to bottom, transparent 0, #000 20%, #000 85%, transparent 100%);
+    mask-composite: intersect;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.7;
     transition: opacity 0.5s ease;
 }
 .dish:hover::before { opacity: 1; }
-/* Contact shadow: sits close under the plate so it reads as cast by the dish
-   itself under the overhead light — a tight dark core, a short soft penumbra,
-   not a wide detached oval floating below. */
+/* Contact shadow: tight under the plate, dark and short — reads as cast
+   directly by the overhead key light. A concentrated dark core with a
+   brief penumbra so the dish floats just above the surface. */
 .dish::after {
     content: "";
     position: absolute;
-    left: 20%;
-    right: 20%;
-    bottom: 8%;
-    height: 6%;
-    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.66) 0%, rgba(0, 0, 0, 0.3) 40%, rgba(0, 0, 0, 0) 74%);
-    filter: blur(7px);
+    left: 26%;
+    right: 26%;
+    bottom: 5%;
+    height: 4%;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.38) 35%, rgba(0, 0, 0, 0) 78%);
+    filter: blur(5px);
     z-index: 0;
     pointer-events: none;
     transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
@@ -717,6 +726,7 @@ select.premium-input {
 .dish--angled:hover .dish-img {
     transform: translateY(-8px) rotate(0deg);
 }
+
 @media (prefers-reduced-motion: reduce) {
     .dish--angled > img,
     .dish--angled .dish-img { transform: none; }
@@ -727,19 +737,19 @@ select.premium-input {
    well below to imply suspension, and a wider ambient glow lifts the plate off
    the dark ground. Light stays consistent: highlight on top, shadow beneath. */
 .dish--float::after {
-    left: 20%;
-    right: 20%;
-    bottom: -7%;
-    height: 12%;
-    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.14) 46%, rgba(0, 0, 0, 0) 78%);
-    filter: blur(18px);
+    left: 24%;
+    right: 24%;
+    bottom: 1%;
+    height: 8%;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.24) 42%, rgba(0, 0, 0, 0) 80%);
+    filter: blur(12px);
 }
 .dish--float::before {
     width: 100%;
     height: 100%;
     top: 0;
-    opacity: 1;
-    background: radial-gradient(ellipse 58% 54% at 50% 42%, rgba(255, 236, 210, 0.12) 0%, rgba(255, 236, 210, 0) 72%);
+    opacity: 0.85;
+    background: radial-gradient(ellipse 58% 54% at 50% 42%, rgba(255, 236, 210, 0.22) 0%, rgba(255, 236, 210, 0) 72%);
 }
 .dish--float .dish-img {
     filter:
@@ -1105,10 +1115,22 @@ select.premium-input {
     padding: 120px max(8vw, 24px) 96px;
     display: grid;
     grid-template-columns: 1.02fr 0.98fr;
+    grid-template-rows: auto auto;
     gap: clamp(24px, 4vw, 72px);
-    align-items: center;
+    align-items: start;
+}
+.gift-hero-head {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 24px;
+}
+.gift-hero-body {
+    grid-column: 1;
+    grid-row: 2;
 }
 .giftcard-hero-cards {
+    grid-column: 2;
+    grid-row: 1 / 3;
     position: relative;
     min-height: 420px;
     display: flex;
@@ -1116,14 +1138,79 @@ select.premium-input {
     align-items: center;
     padding: 0 clamp(8px, 2vw, 40px);
 }
+
 @media (max-width: 860px) {
     .giftcard-hero-inner {
         grid-template-columns: 1fr;
+        grid-template-rows: auto;
         gap: 36px;
         padding-top: 128px;
         padding-bottom: 56px;
     }
-    .giftcard-hero-cards { order: -1; min-height: 320px; }
+    .gift-hero-head {
+        grid-column: 1;
+        grid-row: auto;
+        order: -2;
+        margin-bottom: 0;
+        padding-bottom: 56px;
+    }
+    .gift-hero-body {
+        grid-column: 1;
+        grid-row: auto;
+        order: 0;
+    }
+    .giftcard-hero-cards {
+        grid-column: 1;
+        grid-row: auto;
+        order: -1;
+        min-height: 320px;
+    }
+}
+
+/* Homepage gift card section — 3-child grid, same clean pattern as giftcard hero */
+.landing-gift-grid {
+    display: grid;
+    grid-template-columns: 0.72fr 1.28fr;
+    grid-template-rows: auto auto;
+    gap: clamp(28px, 5vw, 72px);
+    align-items: start;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+.landing-gift-head {
+    grid-column: 1;
+    grid-row: 1;
+}
+.landing-gift-body {
+    grid-column: 1;
+    grid-row: 2;
+}
+.landing-gift-cards {
+    grid-column: 2;
+    grid-row: 1 / 3;
+}
+@media (max-width: 768px) {
+    .landing-gift-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    .landing-gift-head {
+        grid-column: 1;
+        grid-row: auto;
+        order: -2;
+        padding-bottom: 40px;
+    }
+    .landing-gift-body {
+        grid-column: 1;
+        grid-row: auto;
+        order: 0;
+    }
+    .landing-gift-cards {
+        grid-column: 1;
+        grid-row: auto;
+        order: -1;
+        padding: 48px 0 56px 0;
+    }
 }
 
 /* ============================================================
@@ -1154,6 +1241,51 @@ select.premium-input {
 .section-pad   { padding-top: var(--space-macro); padding-bottom: var(--space-macro); }
 .section-pad-t { padding-top: var(--space-macro); }
 .section-pad-b { padding-bottom: var(--space-macro); }
+
+/* ============================================================
+   Image blend treatment — same intersecting linear-gradient mask
+   as the Chapter II video (.media-feather), with rounded corners.
+   The fade zone is opened wider for still photographs so the
+   dissolve into the nocturnal background reads clearly at every
+   size; narrow 7-9% windows that work on full-bleed video are
+   imperceptible on smaller editorial stills.
+   ============================================================ */
+.img-feather {
+    border-radius: var(--radius-lg);
+    -webkit-mask-image:
+        linear-gradient(to right, transparent 0, #000 15%, #000 85%, transparent 100%),
+        linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        linear-gradient(to right, transparent 0, #000 15%, #000 85%, transparent 100%),
+        linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+    mask-composite: intersect;
+}
+
+/* ============================================================
+   Section dissolve — hard horizontal cuts between sections
+   become soft editorial transitions. Each section's top edge
+   fades in from noir and its bottom edge dissolves back,
+   matching the .media-feather / .img-feather dissolve language.
+   ============================================================ */
+.section-blend-top,
+.section-blend-bottom {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+.section-blend-top {
+    top: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, var(--color-surface-base) 0%, transparent 100%);
+}
+.section-blend-bottom {
+    bottom: 0;
+    height: 120px;
+    background: linear-gradient(to top, var(--color-surface-base) 0%, transparent 100%);
+}
 
 /* ============================================================
    Footer — compact, dark, gradient-free. A restrained sign-off: a small
