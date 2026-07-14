@@ -624,18 +624,21 @@ select.premium-input {
         width: 60px;
         z-index: 9998;
         pointer-events: none;
-        background: linear-gradient(to left, rgba(240,139,67,0.22), transparent);
+        background: linear-gradient(to left, rgba(7,9,17,0.45), transparent);
         transition: width 0.3s ease, background 0.3s ease;
     }
     .menu-rail-backdrop--active {
         width: 130px;
-        background: linear-gradient(to left, rgba(240,139,67,0.48), rgba(240,139,67,0.12) 60%, transparent);
+        background: linear-gradient(to left, rgba(7,9,17,0.88), rgba(7,9,17,0.38) 60%, transparent);
     }
 
-    /* Active rail — labels get a solid dark pill behind them so they're always
+    /* Active rail — labels get a solid pill behind them so they're always
        readable, no matter what menu content sits behind the rail. */
     .menu-rail--active .menu-rail-name {
-        background: rgba(7,9,17,0.9);
+        background: rgba(240,139,67,0.18);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(240,139,67,0.3);
         border-radius: var(--radius-sm);
         padding: 5px 14px;
         right: calc(100% + 18px);
