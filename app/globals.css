@@ -635,13 +635,13 @@ select.premium-input {
     /* Active rail — labels get a solid pill behind them so they're always
        readable, no matter what menu content sits behind the rail. */
     .menu-rail--active .menu-rail-name {
-        background: rgba(240,139,67,0.18);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(240,139,67,0.3);
+        background: var(--color-primary);
+        color: #ffffff !important;
+        font-weight: 700 !important;
         border-radius: var(--radius-sm);
         padding: 5px 14px;
         right: calc(100% + 18px);
+        box-shadow: 0 6px 18px rgba(240,139,67,0.3);
     }
 }
 @media (prefers-reduced-motion: reduce) {
